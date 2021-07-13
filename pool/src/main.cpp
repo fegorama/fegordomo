@@ -1,15 +1,18 @@
+#ifdef ESP32
 #include <WiFi.h>
+#else
+#include <ESP8266WiFi.h>
+#endif
 #include <ESPAsyncWebServer.h>
 #include <SPIFFS.h>
 #include <ArduinoJson.h>
 
-#include "config.h"  // Sustituir con datos de vuestra red
+#include "config.h"  
 #include "API.hpp"
 #include "Server.hpp"
 #include "ESP32_Utils.hpp"
 
-void setup() 
-{
+void setup() {
 	pinMode(LED_GPIO, OUTPUT);
 	Serial.begin(115200);
 
@@ -18,6 +21,5 @@ void setup()
 	InitServer();
 }
 
-void loop() 
-{
+void loop() {
 }
