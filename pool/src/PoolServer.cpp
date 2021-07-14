@@ -2,8 +2,6 @@
 #include "PoolServer.h"
 #include "APIRest.h"
 
-//AsyncWebServer server(80);
-
 void helloWorld(AsyncWebServerRequest *request) {
     request->send(200, "text/plain", "Hello, World!");
 }

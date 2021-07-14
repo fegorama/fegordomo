@@ -11,9 +11,32 @@
 #include "API.hpp"
 #include "PoolServer.h"
 #include "ESP32_Utils.hpp"
+#include "DeviceExternal.h"
+#include "devices.h"
 
+DeviceExternal *devices;
 
+void build_devices() {
+	StaticJsonDocument<1024> doc;
+    DeserializationError error = deserializeJson(doc, config_devs);
 
+	if(error) {
+		Serial.print(F("deserializeJson() failed with code "));
+		Serial.println(error.c_str());
+		return;
+	}
+
+	JsonArray arr = doc.as<JsonArray>();
+	int memoryUsed = doc.memoryUsage();
+
+	for(JsonObject repo : arr) {
+		devices = new DeviceExternal(repo["id"],
+							repo["name"],
+							repo["gpio"],
+							repo["type"],
+							repo["schedule"]);
+	}
+}
 
 void setup() {
 	//pinMode(LED_GPIO, OUTPUT);
