@@ -6,7 +6,7 @@ void ConnectWiFi_STA(bool useStaticIP = false)
    if(useStaticIP) WiFi.config(ip, gateway, subnet);
    while (WiFi.status() != WL_CONNECTED) 
    { 
-     delay(100);  
+     delay(1000);  
      Serial.print('.'); 
    }
  
@@ -24,7 +24,7 @@ void ConnectWiFi_AP(bool useStaticIP = false)
    while(!WiFi.softAP(ssid, password))
    {
      Serial.println(".");
-     delay(100);
+     delay(1000);
    }
    if(useStaticIP) WiFi.softAPConfig(ip, gateway, subnet);
 

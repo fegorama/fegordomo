@@ -9,16 +9,20 @@
 
 #include "config.h"  
 #include "API.hpp"
-#include "Server.hpp"
+#include "PoolServer.h"
 #include "ESP32_Utils.hpp"
 
+
+
+
 void setup() {
-	pinMode(LED_GPIO, OUTPUT);
+	//pinMode(LED_GPIO, OUTPUT);
 	Serial.begin(115200);
 
 	ConnectWiFi_STA(true);
 
-	InitServer();
+	PoolServer *poolServer = new PoolServer();
+	poolServer->initServer();
 }
 
 void loop() {

@@ -1,6 +1,8 @@
 #ifndef TREATMENTSYSTEM_H
 #define TREATMENTSYSTEM_H
 
+const byte TREATMENT_SYSTEM_GPIO = 27;
+
 class TreatmentSystem {
     int gpio;
 
@@ -12,7 +14,5 @@ class TreatmentSystem {
         void treatmentSystemOn();
         void treatmentSystemOff();
 };
-
-#define TREATMENT_SYSTEM_GPIO   27
 
 #endif

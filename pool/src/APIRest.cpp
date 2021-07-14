@@ -1,5 +1,6 @@
 #include <ESPAsyncWebServer.h>
 #include <ArduinoJson.h>
+#include <Stream.h>
 #include "APIRest.h"
 #include "TreatmentSystem.h"
 #include "Lights.h"
@@ -37,16 +38,27 @@ void APIRest::postRequest(AsyncWebServerRequest *request, uint8_t *data, size_t 
 
     const char *ts = jsonDoc["treatmentSystem"];
     const char *lhts = jsonDoc["lights"];
+Serial.println("post");
+Serial.println(ts);
+Serial.println(lhts);
 
-    if (strcasecmp(ts, "on")) {
+    if (strcasecmp(ts, "on") == 0) {
         this->treatmentSystem.treatmentSystemOn();
-    } else if (strcasecmp(ts, "off")) {
+Serial.println("depuradora on");       
+    } else if (strcasecmp(ts, "off") == 0) {
+Serial.println("depuradora off");       
         this->treatmentSystem.treatmentSystemOff();
     }
 
-    if (strcasecmp(lhts, "on")) {
+    if (strcasecmp(lhts, "on") == 0) {
         this->lights.lightsOn();
-    } else if(strcasecmp(lhts, "off")) {
+Serial.println("luces on");       
+    } else if(strcasecmp(lhts, "off") == 0) {
+Serial.println("luces off");       
         this->lights.lightsOff();
     }
+
+    String message = "OK";
+    Serial.println(message);
+    request->send(200, "text/plain", message);
 }

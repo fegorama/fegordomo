@@ -2,11 +2,13 @@
 #include "TreatmentSystem.h"
 
 TreatmentSystem::TreatmentSystem() {
-    pinMode(this->gpio, OUTPUT);
+    setGPIOConfig(TREATMENT_SYSTEM_GPIO);
+    pinMode(gpio, OUTPUT);
+Serial.println(gpio);
 }
 
 int  TreatmentSystem::getGPIOConfig() {
-    return this->gpio;
+    return gpio;
 }
 
 void TreatmentSystem::setGPIOConfig(int gpio) {
@@ -14,9 +16,10 @@ void TreatmentSystem::setGPIOConfig(int gpio) {
 }
 
 void TreatmentSystem::treatmentSystemOn() {
-    digitalWrite(this->gpio, HIGH);
+Serial.print("turn on for gpio "); Serial.println(gpio);
+    digitalWrite(gpio, HIGH);
 }
 
 void TreatmentSystem::treatmentSystemOff() {
-    digitalWrite(this->gpio, LOW);
+    digitalWrite(gpio, LOW);
 }

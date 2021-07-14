@@ -1,12 +1,12 @@
 #include <Arduino.h>
 #include "Lights.h"
 
-
 Lights::Lights() {
+    setGPIOConfig(LIGTHS_GPIO);
     pinMode(this->gpio, OUTPUT);
 }
 
-int  Lights::getGPIOConfig() {
+int Lights::getGPIOConfig() {
     return this->gpio;
 }
 
