@@ -1,3 +1,13 @@
+/**
+ * @file 	WebServer.h
+ * @brief 	Servidor Web
+ * 
+ * @author 	Fernando González (Fegor)
+ * @date 	12/07/2021
+ * @version 1.0.0
+ * 
+ * Licensed under the EUPL-1.2-or-later
+ */
 #ifndef POOLSERVER_H
 #define POOLSERVER_H
 

@@ -1,3 +1,13 @@
+/**
+ * @file 	APIRest.h
+ * @brief 	API de llamadas a RESTful
+ * 
+ * @author 	Fernando González (Fegor)
+ * @date 	12/07/2021
+ * @version 1.0.0
+ * 
+ * Licensed under the EUPL-1.2-or-later
+ */
 #ifndef APIREST_H
 #define APIREST_H
 

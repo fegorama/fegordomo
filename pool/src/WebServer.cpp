@@ -1,9 +1,22 @@
+/**
+ * @file 	WebServer.cpp
+ * @brief 	Servidor Web
+ * 
+ * @author 	Fernando González (Fegor)
+ * @date 	12/07/2021
+ * @version 1.0.0
+ * 
+ * Licensed under the EUPL-1.2-or-later
+ */
 #include <ArduinoJson.h>
 #include "WebServer.h"
 #include "APIRest.h"
 
 WebServer::WebServer() : server(80) {}
 
+/**
+ * Inicio del servicio web
+ */
 void WebServer::initServer()
 {
     server.on("/health", HTTP_GET, std::bind(&APIRest::health, apiRest, std::placeholders::_1));

@@ -1,3 +1,13 @@
+/**
+ * @file 	config.h
+ * @brief 	Configuración general
+ * 
+ * @author 	Fernando González (Fegor)
+ * @date 	12/07/2021
+ * @version 1.0.0
+ * 
+ * Licensed under the EUPL-1.2-or-later
+ */
 #ifndef CONFIG_H
 #define CONFIG_H
 

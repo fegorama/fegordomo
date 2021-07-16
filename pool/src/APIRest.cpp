@@ -1,7 +1,21 @@
+/**
+ * @file 	APIRest.cpp
+ * @brief 	API de llamadas a RESTful
+ * 
+ * @author 	Fernando González (Fegor)
+ * @date 	12/07/2021
+ * @version 1.0.0
+ * 
+ * Licensed under the EUPL-1.2-or-later
+ */
 #include <ESPAsyncWebServer.h>
 #include <ArduinoJson.h>
 #include <Stream.h>
 #include "APIRest.h"
+
+/**
+ * Métodos privados
+ */
 
 int APIRest::getIdFromURL(AsyncWebServerRequest *request, String root)
 {
@@ -22,6 +36,10 @@ String APIRest::getBodyContent(uint8_t *data, size_t len)
 
     return content;
 }
+
+/**
+ * Métodos públicos
+ */
 
 APIRest::APIRest() {}
 
