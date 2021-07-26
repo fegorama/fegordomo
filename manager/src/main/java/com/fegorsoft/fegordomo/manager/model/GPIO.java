@@ -3,6 +3,7 @@ package com.fegorsoft.fegordomo.manager.model;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Column;
+import javax.validation.constraints.NotBlank;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -23,19 +24,24 @@ public class GPIO implements PeripheralInterface {
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Integer id;
 
+    @NotBlank
     @Column(name = "GPIO")
     private byte gpio;
 
+    @NotBlank
     @Column(name = "MODE")
     private byte mode;
 
+    @NotBlank
     @Column(name = "STATUS")
     private boolean status;
     
+    @NotBlank
     @NotNull
     @Column(name = "DATE_TIME_ON")
     private LocalDateTime dateTimeOn;
 
+    @NotBlank
     @NotNull
     @Column(name = "TIME_ZONE")
     private ZoneId timeZone;

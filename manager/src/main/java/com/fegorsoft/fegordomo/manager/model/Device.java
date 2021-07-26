@@ -2,6 +2,8 @@ package com.fegorsoft.fegordomo.manager.model;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -20,9 +22,13 @@ public class Device {
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Integer id;
 
+    @NotBlank
+    @Size(min = 0, max = 64)
     @Column(name = "NAME", nullable=false)
     private String name;
 
+    @NotBlank
+    @Size(min = 0, max = 32)
     @Column(name = "TYPE", nullable=false)
     private String type;                        // ESP32, ArduinoUNO,...
 
