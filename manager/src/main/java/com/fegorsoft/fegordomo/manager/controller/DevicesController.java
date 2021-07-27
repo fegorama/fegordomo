@@ -1,32 +1,25 @@
 package com.fegorsoft.fegordomo.manager.controller;
 
+import javax.validation.Valid;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import com.fegorsoft.fegordomo.manager.exception.DeviceNotFoundException;
 import com.fegorsoft.fegordomo.manager.model.Device;
 import com.fegorsoft.fegordomo.manager.repository.DeviceRepository;
-import com.fegorsoft.fegordomo.manager.exception.DeviceNotFoundException;
 
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-
-import javax.validation.Valid;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -37,7 +30,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @RequestMapping(path = "/devices")
 @Tag(name = "Devices", description = "API for devices")
 public class DevicesController {
-
     @Autowired
     private DeviceRepository deviceRepository;
 
@@ -73,9 +65,9 @@ public class DevicesController {
         @ApiResponse(responseCode = "404", description = "Device not found", 
           content = @Content) })
     @GetMapping("/{id}")
-    public Device findById(@PathVariable Integer id) throws DeviceNotFoundException{
-        return deviceRepository.findById(id)
-            .orElseThrow(() -> DeviceNotFoundException()));
+    public Device findById(@PathVariable Integer id) throws DeviceNotFoundException {
+        return deviceRepository
+            .findById(id).orElse(null);
     }
 
     @Operation(summary = "Get all devices")

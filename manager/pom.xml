@@ -14,6 +14,7 @@
 	<description>Demo project for Spring Boot</description>
 	<properties>
 		<java.version>11</java.version>
+		<openapi.version>1.5.10</openapi.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -39,11 +40,6 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-		<!--dependency>
-	<groupId></groupId>
-	<artifactId></artifactId>
-	<version></version>
-</dependency>	-->
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
@@ -67,15 +63,6 @@
 			<artifactId>mariadb-java-client</artifactId>
 			<version>1.5.7</version>
 		</dependency>
-
-		<!--
-   <dependency>
-     <groupId>javax</groupId>
-     <artifactId>javaee-api</artifactId>
-     <version>8.0.1</version>
-   </dependency>
--->
-
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-annotations</artifactId>
@@ -89,28 +76,40 @@
 		<dependency>
 			<groupId>org.springdoc</groupId>
 			<artifactId>springdoc-openapi-ui</artifactId>
-			<version>1.5.2</version>
+			<version>${openapi.version}</version>
 		</dependency>
+		<dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-data-rest</artifactId>
+            <version>${openapi.version}</version>
+        </dependency>
+		<!--
 		<dependency>
 			<groupId>org.springdoc</groupId>
 			<artifactId>springdoc-openapi-webflux-ui</artifactId>
-			<version>1.5.2</version>
+			<version>${openapi.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springdoc</groupId>
 			<artifactId>springdoc-openapi-data-rest</artifactId>
-			<version>1.5.2</version>
+			<version>${openapi.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springdoc</groupId>
-			<artifactId>springdoc-openapi-data-rest</artifactId>
-			<version>1.5.2</version>
-		</dependency>
+			<artifactId>springdoc-openapi-hateoas</artifactId>
+			<version>${openapi.version}</version>
+		 </dependency>
+		 <dependency>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-security</artifactId>
+			<version>${openapi.version}</version>
+		 </dependency>
+		-->
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-annotations</artifactId>
 		</dependency>
-	</dependencies>
+ </dependencies>
 
 	<build>
 		<plugins>
@@ -145,5 +144,16 @@
 				</executions>
 			</plugin>
 		</plugins>
+		<resources>
+            <resource>
+                <filtering>true</filtering>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>application.properties</include>
+                    <include>schema.sql</include>
+                    <include>quartz.sql</include>
+                </includes>
+            </resource>
+        </resources>
 	</build>
 </project>
