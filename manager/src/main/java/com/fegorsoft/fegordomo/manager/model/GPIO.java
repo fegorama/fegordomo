@@ -11,43 +11,46 @@ import javax.persistence.ManyToOne;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 
 @Entity
-@Table (name = "GPIOS")
+@Table(name = "gpios")
 public class GPIO implements PeripheralInterface {
-    enum modes { INPUT, OUTPUT }
+    enum modes {
+        INPUT, OUTPUT
+    }
 
     @Id
-    @Column(name = "ID_PK", nullable=false)
-    @GeneratedValue(strategy=GenerationType.AUTO)
-    private Integer id;
+    @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long id;
 
     @NotBlank
-    @Column(name = "GPIO")
+    @Column(name = "gpio")
     private byte gpio;
 
     @NotBlank
-    @Column(name = "MODE")
+    @Column(name = "mode")
     private byte mode;
 
     @NotBlank
-    @Column(name = "STATUS")
+    @Column(name = "status")
     private boolean status;
-    
-    @NotBlank
-    @NotNull
-    @Column(name = "DATE_TIME_ON")
-    private LocalDateTime dateTimeOn;
 
     @NotBlank
-    @NotNull
-    @Column(name = "TIME_ZONE")
-    private ZoneId timeZone;
-    
+    @Column(name = "cron_trigger_on")
+    private String cronTriggerOn;
+
+    @NotBlank
+    @Column(name = "cron_trigger_off")
+    private String cronTriggerOff;
+
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ID_FK", referencedColumnName = "ID_PK")
+    @JoinColumn(name = "device_id", referencedColumnName = "id")
     Device device;
 
     @Override
@@ -60,11 +63,11 @@ public class GPIO implements PeripheralInterface {
         status = true;
     }
 
-    public Integer getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -92,22 +95,23 @@ public class GPIO implements PeripheralInterface {
         this.status = status;
     }
 
-    public LocalDateTime getDateTimeOn() {
-        return dateTimeOn;
+    public String getCronTriggerOn() {
+        return cronTriggerOn;
     }
 
-    public void setDateTimeOn(LocalDateTime dateTimeOn) {
-        this.dateTimeOn = dateTimeOn;
+    public void setCronTriggerOn(String cronTriggerOn) {
+        this.cronTriggerOn = cronTriggerOn;
     }
 
-    public ZoneId getTimeZone() {
-        return timeZone;
+    public String getCronTriggerOff() {
+        return cronTriggerOff;
     }
 
-    public void setTimeZone(ZoneId timeZone) {
-        this.timeZone = timeZone;
+    public void setCronTriggerOff(String cronTriggerOff) {
+        this.cronTriggerOff = cronTriggerOff;
     }
 
+    @JsonIgnore
     public Device getDevice() {
         return device;
     }

@@ -11,45 +11,57 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.FetchType;
 import javax.persistence.CascadeType;
+import org.springframework.data.rest.core.annotation.RestResource;
 
+import java.net.InetAddress;
 import java.util.List;
 
 @Entity
-@Table (name = "DEVICES")
+@Table(name = "devices")
 public class Device {
     @Id
-    @Column(name = "ID_PK", nullable=false)
-    @GeneratedValue(strategy=GenerationType.AUTO)
-    private Integer id;
+    @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
 
     @NotBlank
     @Size(min = 0, max = 64)
-    @Column(name = "NAME", nullable=false)
+    @Column(name = "name", nullable = false)
     private String name;
 
     @NotBlank
     @Size(min = 0, max = 32)
-    @Column(name = "TYPE", nullable=false)
-    private String type;                        // ESP32, ArduinoUNO,...
+    @Column(name = "type", nullable = false)
+    private String type; // ESP32, ArduinoUNO,...
 
+    @NotBlank
+    @Column(name = "ip_address", nullable = false)
+    InetAddress ip;
+
+    @RestResource(path = "deviceGPIO", rel="gpio")
     @OneToMany(mappedBy = "device", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     List<GPIO> gpios;
 
-    public Integer getId() {
+    public long getId() {
         return id;
     }
-    public void setId(Integer id) {
+
+    public void setId(long id) {
         this.id = id;
     }
+
     public String getName() {
         return name;
     }
+
     public void setName(String name) {
         this.name = name;
     }
+
     public String getType() {
         return type;
     }
+
     public void setType(String type) {
         this.type = type;
     }
@@ -62,5 +74,12 @@ public class Device {
         this.gpios = gpios;
     }
 
-    
+    public InetAddress getIp() {
+        return ip;
+    }
+
+    public void setIp(InetAddress ip) {
+        this.ip = ip;
+    }
+
 }
