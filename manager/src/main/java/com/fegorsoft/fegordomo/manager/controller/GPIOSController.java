@@ -3,6 +3,7 @@ package com.fegorsoft.fegordomo.manager.controller;
 import javax.validation.Valid;
 
 import com.fegorsoft.fegordomo.manager.dto.GPIODTO;
+import com.fegorsoft.fegordomo.manager.dto.GPIOMessageDTO;
 import com.fegorsoft.fegordomo.manager.dto.ScheduleGPIO;
 import com.fegorsoft.fegordomo.manager.exception.DeviceNotFoundException;
 import com.fegorsoft.fegordomo.manager.exception.GPIONotFoundException;
@@ -11,6 +12,8 @@ import com.fegorsoft.fegordomo.manager.model.GPIO;
 import com.fegorsoft.fegordomo.manager.repository.DeviceRepository;
 import com.fegorsoft.fegordomo.manager.repository.GPIORepository;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,11 +33,11 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-
 @RestController
 @RequestMapping(path = "/gpios")
 @Tag(name = "GPIOS", description = "API for GPIOs")
 public class GPIOSController {
+    private static final Logger log = LoggerFactory.getLogger(GPIOSController.class);
 
     @Autowired
     private GPIORepository gpioRepository;
@@ -44,6 +47,19 @@ public class GPIOSController {
 
     @Autowired
     private ScheduleGPIOController scheduleGPIOController;
+
+    @Operation(summary = "Simulation of send message to device")
+    @ApiResponses(value = { @ApiResponse(responseCode = "201", description = "gpio created", content = {
+            @Content(mediaType = "application/json", schema = @Schema(implementation = GPIOMessageDTO.class)) }),
+            @ApiResponse(responseCode = "404", description = "Bad request", content = @Content) })
+    @PostMapping(path = "/simulation")
+    public ResponseEntity<GPIOMessageDTO> simulation(
+            @Parameter(description = "Message GPIO") @RequestBody @Valid GPIOMessageDTO gpioMessageDTO) {
+
+        log.info("Message: {}", gpioMessageDTO);
+        
+        return new ResponseEntity<>(gpioMessageDTO, HttpStatus.OK);
+    }
 
     @Operation(summary = "Create a gpio")
     @ApiResponses(value = {
@@ -66,8 +82,8 @@ public class GPIOSController {
             gpioRepository.save(gpio);
 
             ScheduleGPIO scheduleGPIO = new ScheduleGPIO(gpio.getId(), gpio.getGpio(), device.getIp().getHostAddress(),
-                    gpio.getCronTriggerOn(), gpio.getCronTriggerOff());
-            scheduleGPIOController.add(scheduleGPIO);
+                    gpio.getCronTriggerOn(), gpio.getCronTriggerOff(), true);
+            scheduleGPIOController.build(scheduleGPIO);
 
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

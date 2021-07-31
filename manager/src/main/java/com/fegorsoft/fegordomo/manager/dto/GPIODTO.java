@@ -2,14 +2,14 @@ package com.fegorsoft.fegordomo.manager.dto;
 
 public class GPIODTO {
     private long id;
-    private byte gpio;
-    private byte mode;
+    private int gpio;
+    private int mode;
     private boolean status;
     private String cronTriggerOn;
     private String cronTriggerOff;
     private long deviceId;
 
-    public GPIODTO(long id, byte gpio, byte mode, boolean status, String cronTriggerOn, String cronTriggerOff) {
+    public GPIODTO(long id, int gpio, int mode, boolean status, String cronTriggerOn, String cronTriggerOff) {
         this.id = id;
         this.gpio = gpio;
         this.mode = mode;
@@ -26,19 +26,19 @@ public class GPIODTO {
         this.id = id;
     }
 
-    public byte getGpio() {
+    public int getGpio() {
         return gpio;
     }
 
-    public void setGpio(byte gpio) {
+    public void setGpio(int gpio) {
         this.gpio = gpio;
     }
 
-    public byte getMode() {
+    public int getMode() {
         return mode;
     }
 
-    public void setMode(byte mode) {
+    public void setMode(int mode) {
         this.mode = mode;
     }
 

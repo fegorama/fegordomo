@@ -1,22 +1,24 @@
 package com.fegorsoft.fegordomo.manager.dto;
 
-
 public class ScheduleGPIO {
     private Long gpioId;
-    private byte gpio;
+    private int gpio;
     private String ip;
     private String cronTriggerOn;
     private String cronTriggerOff;
+    private boolean active;
 
     public ScheduleGPIO() {
     }
 
-    public ScheduleGPIO(Long gpioId, byte gpio, String ip, String cronTriggerOn, String cronTriggerOff) {
+    public ScheduleGPIO(Long gpioId, int gpio, String ip, String cronTriggerOn, String cronTriggerOff,
+            boolean active) {
         this.gpioId = gpioId;
         this.gpio = gpio;
         this.ip = ip;
         this.cronTriggerOn = cronTriggerOn;
         this.cronTriggerOff = cronTriggerOff;
+        this.active = active;
     }
 
     public Long getGpioId() {
@@ -27,11 +29,11 @@ public class ScheduleGPIO {
         this.gpioId = gpioId;
     }
 
-    public byte getGpio() {
+    public int getGpio() {
         return gpio;
     }
 
-    public void setGpio(byte gpio) {
+    public void setGpio(int gpio) {
         this.gpio = gpio;
     }
 
@@ -57,6 +59,14 @@ public class ScheduleGPIO {
 
     public void setCronTriggerOff(String cronTriggerOff) {
         this.cronTriggerOff = cronTriggerOff;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
 }

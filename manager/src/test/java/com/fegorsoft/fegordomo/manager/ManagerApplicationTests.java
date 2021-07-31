@@ -29,7 +29,7 @@ class ManagerApplicationTests {
 		scheduleGPIO.setCronTriggerOff("0/6 0 0 ? * * *");
 
 		ScheduleGPIOController s = new ScheduleGPIOController();
-		ScheduleGPIOResponse res = s.add(scheduleGPIO);
+		ScheduleGPIOResponse res = s.build(scheduleGPIO);
 
 		assertEquals("GPIO Scheduled Successfully!", res.getMessage());
 	}

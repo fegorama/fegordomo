@@ -1,21 +1,17 @@
 package com.fegorsoft.fegordomo.manager.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
 import javax.persistence.Column;
-import javax.validation.constraints.NotBlank;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
-import javax.validation.constraints.NotNull;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 
 @Entity
 @Table(name = "gpios")
@@ -31,11 +27,11 @@ public class GPIO implements PeripheralInterface {
 
     @NotBlank
     @Column(name = "gpio")
-    private byte gpio;
+    private int gpio;
 
     @NotBlank
     @Column(name = "mode")
-    private byte mode;
+    private int mode;
 
     @NotBlank
     @Column(name = "status")
@@ -71,19 +67,19 @@ public class GPIO implements PeripheralInterface {
         this.id = id;
     }
 
-    public byte getGpio() {
+    public int getGpio() {
         return gpio;
     }
 
-    public void setGpio(byte gpio) {
+    public void setGpio(int gpio) {
         this.gpio = gpio;
     }
 
-    public byte getMode() {
+    public int getMode() {
         return mode;
     }
 
-    public void setMode(byte mode) {
+    public void setMode(int mode) {
         this.mode = mode;
     }
 

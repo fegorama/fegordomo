@@ -5,6 +5,7 @@ import java.util.List;
 public class JobDTO {
     String name;
     String group;
+    boolean active;
     List<TriggerDTO> triggerDTO;
 
     public String getName() {
@@ -21,6 +22,14 @@ public class JobDTO {
 
     public void setGroup(String group) {
         this.group = group;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
     public List<TriggerDTO> getTriggerDTO() {

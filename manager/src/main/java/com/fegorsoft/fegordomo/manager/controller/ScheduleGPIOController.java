@@ -1,10 +1,8 @@
 package com.fegorsoft.fegordomo.manager.controller;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import javax.validation.Valid;
@@ -20,7 +18,6 @@ import org.quartz.CronTrigger;
 import org.quartz.JobBuilder;
 import org.quartz.JobDataMap;
 import org.quartz.JobDetail;
-import org.quartz.JobExecutionContext;
 import org.quartz.JobKey;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
@@ -30,10 +27,12 @@ import org.quartz.impl.matchers.GroupMatcher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -53,6 +52,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @Tag(name = "Scheduler", description = "API for GPIO's scheduler")
 public class ScheduleGPIOController {
     private static final Logger logger = LoggerFactory.getLogger(ScheduleGPIOController.class);
+    private static final String GPIO_GROUP_JOB = "gpio-jobs";
+    private static final String GPIO_GROUP_TRIGGER = "gpio-triggers";
 
     @Autowired
     private Scheduler scheduler;
@@ -68,7 +69,28 @@ public class ScheduleGPIOController {
         return buildJob(scheduleGPIO);
     }
 
-     @Operation(summary = "Get all jobs")
+    @Operation(summary = "Delete job")
+    @ApiResponses(value = { @ApiResponse(responseCode = "201", description = "job deleted", content = {
+            @Content(mediaType = "application/json", schema = @Schema(implementation = ScheduleGPIOResponse.class)) }),
+            @ApiResponse(responseCode = "404", description = "Bad request", content = @Content) })
+    @DeleteMapping(path = "/{gpioId}")
+    public ResponseEntity<String> delete(@Parameter(description = "GPIO ID") long gpioId) {
+
+        try {
+            if (scheduler.deleteJob(new JobKey("gpioId-" + gpioId, GPIO_GROUP_JOB))) {
+                return new ResponseEntity<>(HttpStatus.OK);
+
+            } else {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+
+        } catch (SchedulerException se) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+    }
+
+    @Operation(summary = "Get all jobs")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Found jobs", content = {
                     @Content(mediaType = "application/json", schema = @Schema(implementation = JobDTO.class)) }),
@@ -111,7 +133,15 @@ public class ScheduleGPIOController {
             Set<CronTrigger> cronTriggers = new HashSet<>();
             cronTriggers.add(buildJobTrigger(jobDetail, (byte) 1));
             cronTriggers.add(buildJobTrigger(jobDetail, (byte) 0));
-            scheduler.scheduleJob(jobDetail, cronTriggers, true);
+
+            if (scheduleGPIO.isActive()) {
+                scheduler.scheduleJob(jobDetail, cronTriggers, true);
+
+            } else {
+                List<Trigger> triggers = new ArrayList<>(cronTriggers);
+                scheduler.unscheduleJob(triggers.get(0).getKey());
+                scheduler.unscheduleJob(triggers.get(1).getKey());
+            }
 
             return new ScheduleGPIOResponse(true, jobDetail.getKey().getName(), jobDetail.getKey().getGroup(),
                     "GPIO Scheduled Successfully!");
@@ -132,7 +162,7 @@ public class ScheduleGPIOController {
         jobDataMap.put("cronTriggerOn", scheduleGPIO.getCronTriggerOn());
         jobDataMap.put("cronTriggerOff", scheduleGPIO.getCronTriggerOff());
 
-        return JobBuilder.newJob(GPIOJob.class).withIdentity("gpioId-" + scheduleGPIO.getGpioId(), "gpio-jobs")
+        return JobBuilder.newJob(GPIOJob.class).withIdentity("gpioId-" + scheduleGPIO.getGpioId(), GPIO_GROUP_JOB)
                 .withDescription("GPIO Job").usingJobData(jobDataMap).storeDurably().build();
     }
 
@@ -147,7 +177,7 @@ public class ScheduleGPIOController {
         }
 
         return TriggerBuilder.newTrigger().forJob(jobDetail)
-                .withIdentity(jobDetail.getKey().getName() + "-" + (mode != 0 ? "on" : "off"), "gpio-triggers")
+                .withIdentity(jobDetail.getKey().getName() + "-" + (mode != 0 ? "on" : "off"), GPIO_GROUP_TRIGGER)
                 .withDescription("GPIO Trigger for mode " + (mode != 0 ? "on" : "off"))
                 .withSchedule(CronScheduleBuilder.cronSchedule(cronTrigger)).build();
     }
