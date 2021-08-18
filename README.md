@@ -1,7 +1,7 @@
 # Fegordomo
 
 _Fegordomo es un software para el control de dispositivos IoT, en particular las familias de microcontroladores ESP32._
-_Está formado por un componente manager que gestiona las peticiones, scheduler, etc. como sistema de servicios REST para sistemas operativos Linux. Puede usarse en una Raspberry Pi u Orange Pi_
+_Está formado por un componente manager que gestiona las peticiones, scheduler, etc. como sistema de servicios REST para sistemas operativos Linux y un agente que es instalado en cada dispositivo controlador. Puede usarse en una Raspberry Pi u Orange Pi_
 
 ## Comenzando 🚀
 
@@ -101,4 +101,4 @@ Este proyecto está bajo la Licencia (Tu Licencia) - mira el archivo [LICENSE.md
 
 
 ---
-⌨️ con ❤️ por [fegorama](https://github.com/fegorama) 😊
+2021 - [fegorama](https://github.com/fegorama) 😊
