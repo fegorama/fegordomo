@@ -1,7 +1,13 @@
 package com.fegorsoft.fegordomo.manager.repository;
 
-import org.springframework.data.repository.CrudRepository;
+import java.util.List;
+import com.fegorsoft.fegordomo.manager.dto.DeviceDTO;
+import org.springframework.data.jpa.repository.JpaRepository;
 import com.fegorsoft.fegordomo.manager.model.Device;
-public interface DeviceRepository extends CrudRepository<Device, Long> {
+import org.springframework.data.jpa.repository.Query;
+
+public interface DeviceRepository extends  JpaRepository<Device, Long> {
     
+    @Query("SELECT new com.fegorsoft.fegordomo.manager.dto.DeviceDTO(d.id, d.name, d.type, d.ip, d.enable) FROM Device d")
+    List<DeviceDTO> findAlltoDTO();
 }

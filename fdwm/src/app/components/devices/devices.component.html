@@ -1,0 +1,8 @@
+<div class="main-container">
+    <app-device 
+        *ngFor="let item of items" 
+        [device]="item" 
+        (deleteDevice)="deleteDevice($event)"
+        (enableDevice)="enableDevice($event)">
+    </app-device>
+</div>

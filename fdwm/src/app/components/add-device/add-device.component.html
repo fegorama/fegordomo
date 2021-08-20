@@ -1,0 +1,22 @@
+<form action="" (ngSubmit)="onSubmit()">
+    <h2>Add a new device</h2>
+    <div>
+        <label for="">Name</label>
+        <input type="text" name="name" id="" [(ngModel)]="name">
+    </div>
+
+    <div>
+        <label for="">Type</label>
+        <input type="text" name="type" id="" [(ngModel)]="type">
+    </div>
+
+    <div>
+        <label for="">IP or Host</label>
+        <input type="text" name="ip" id="" [(ngModel)]="ip">
+    </div>
+
+    <div>
+        <input type="submit" value="Create">
+    </div>
+</form>
+

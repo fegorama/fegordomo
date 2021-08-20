@@ -7,6 +7,27 @@ public class DeviceDTO {
     private String name;
     private String type; // ESP32, ArduinoUNO,...
     private String ip; // IP or address
+    private boolean enable; // If is enable
+
+    public DeviceDTO() {
+
+    }
+    
+    public DeviceDTO(long id, String name, String type, String ip, boolean enable) {
+        this.id = id;
+        this.name = name;
+        this.type = type;
+        this.ip = ip;
+        this.enable = enable;
+    }
+
+    public DeviceDTO(long id, String name, String type, InetAddress ip, boolean enable) {
+        this.id = id;
+        this.name = name;
+        this.type = type;
+        this.ip = ip.getHostAddress();
+        this.enable = enable;
+    }
 
     public long getId() {
         return id;
@@ -38,6 +59,14 @@ public class DeviceDTO {
 
     public void setIp(String ip) {
         this.ip = ip;
+    }
+
+    public boolean isEnable() {
+        return enable;
+    }
+
+    public void setEnable(boolean enable) {
+        this.enable = enable;
     }
 
 }

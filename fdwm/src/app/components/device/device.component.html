@@ -1,0 +1,28 @@
+<div class="row" [ngClass]="{'disabled': !device.enable}">
+
+    <div class="id">
+        {{ device.id }}
+    </div>
+
+    <div class="name">
+        {{ device.name | uppercase }}
+    </div>
+
+    <div class="type">
+        {{ device.type | uppercase }}
+    </div>
+
+    <div class="ip">
+        {{ device.ip }}
+    </div>
+
+    <div class="enable">
+        <input type="checkbox" [checked]="device.enable" (change)="onEnable(device)">
+    </div>
+
+    <div class="actions">
+        <button (click)="onDelete(device)">Delete</button>
+    </div>
+
+</div>
+

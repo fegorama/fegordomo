@@ -38,6 +38,10 @@ public class Device {
     @Column(name = "ip_address", nullable = false)
     InetAddress ip;
 
+    @NotBlank
+    @Column(name = "enable", nullable = false)
+    boolean enable;
+
     @RestResource(path = "deviceGPIO", rel="gpio")
     @OneToMany(mappedBy = "device", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     List<GPIO> gpios;
@@ -80,6 +84,14 @@ public class Device {
 
     public void setIp(InetAddress ip) {
         this.ip = ip;
+    }
+
+    public boolean isEnable() {
+        return enable;
+    }
+
+    public void setEnable(boolean enable) {
+        this.enable = enable;
     }
 
 }

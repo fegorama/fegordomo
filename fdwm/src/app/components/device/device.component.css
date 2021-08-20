@@ -1,0 +1,50 @@
+.row {
+    display: flex;
+    box-sizing: border-box;
+}
+
+.row:hover {
+    border-radius: 3px;
+    background: cornflowerblue
+}
+
+div {
+    padding: 5px 0;
+
+}
+
+.id {
+    width: 10%;
+    padding: 0 5px;
+}
+
+.name {
+    width: 50%;
+    padding: 0 5px;
+}
+
+.type {
+    width: 10%;
+    padding: 0 5px;
+}
+
+.ip {
+    width: 10%;
+    padding: 0 5px;
+}
+
+.enable {
+    width: 10%;
+    padding: 0 5px;
+}
+
+.disabled {
+    color: darkgrey;
+}
+
+.actions {
+    width: 20%;
+    text-align: center;
+    box-sizing: border-box;
+    padding: 0 5px;
+}
