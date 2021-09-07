@@ -24,5 +24,9 @@
         <button (click)="onDelete(device)">Delete</button>
     </div>
 
+    <div class="actions">
+        <button [routerLink]="['/edit-device', device.id]">Edit</button>
+    </div>
+    
 </div>
 

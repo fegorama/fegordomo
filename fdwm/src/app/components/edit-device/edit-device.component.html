@@ -1,0 +1,22 @@
+<form action="" *ngIf="currentDevice.id" (ngSubmit)="onSubmit()">
+    <h2>Add a new device</h2>
+    <div>
+        <label for="">Name</label>
+        <input type="text" name="name" id="" [(ngModel)]="currentDevice.name">
+    </div>
+
+    <div>
+        <label for="">Type</label>
+        <input type="text" name="type" id="" [(ngModel)]="currentDevice.type">
+    </div>
+
+    <div>
+        <label for="">IP or Host</label>
+        <input type="text" name="ip" id="" [(ngModel)]="currentDevice.ip">
+    </div>
+
+    <div>
+        <input type="submit" value="Update">
+    </div>
+</form>
+

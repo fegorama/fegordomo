@@ -9,7 +9,8 @@ import { DevicesComponent } from './components/devices/devices.component';
 import { DeviceItemDirective } from './components/device-item.directive';
 import { AddDeviceComponent } from './components/add-device/add-device.component';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http'
+import { HttpClientModule } from '@angular/common/http';
+import { EditDeviceComponent } from './components/edit-device/edit-device.component'
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { HttpClientModule } from '@angular/common/http'
     DeviceComponent,
     DevicesComponent,
     DeviceItemDirective,
-    AddDeviceComponent
+    AddDeviceComponent,
+    EditDeviceComponent
   ],
   imports: [
     BrowserModule,
