@@ -1,0 +1,43 @@
+spring:
+    datasource:
+        url: jdbc:mariadb://localhost:3306/fegordomo
+        username: fegordomo
+        password: fegordomo
+        driver-class-name: org.mariadb.jdbc.Driver
+    jpa:
+        show-sql: true
+        open-in-view: false
+    quartz:
+        job-store-type: jdbc
+        properties:
+            org.quartz.scheduler.instanceId: AUTO
+            org.quartz.threadPool.threadCount: 5
+        jdbc:
+            initialize-schema: never
+    task:
+        execution:
+            pool:
+                max-size: 16
+                queue-capacity: 100
+                keep-alive: 10s
+        scheduling:
+            thread-name-prefix: scheduling-
+            pool:
+                size: 2
+    mail:
+        host: smtp.gmail.com
+        port: 587
+        username: fegordomo@gmail.com
+        password: ----password----
+        properties:
+            mail:
+                smtp:
+                    auth: true
+                    starttls.enable: true
+
+springdoc:
+    api-docs.path: /api-docs
+    swagger-ui.path: /swagger-ui-custom.html
+
+fdwm:
+    url: http://localhost:4200

@@ -9,9 +9,9 @@ spring.jpa.show-sql: true
 #spring.jpa.open-in-view=false 
 
 ## Quartz
-spring.quartz.job-store-type = jdbc
+spring.quartz.job-store-type=jdbc
 spring.quartz.properties.org.quartz.scheduler.instanceId=AUTO 
-spring.quartz.properties.org.quartz.threadPool.threadCount = 5
+spring.quartz.properties.org.quartz.threadPool.threadCount=5
 spring.quartz.jdbc.initialize-schema=never
 
 spring.task.execution.pool.max-size=16

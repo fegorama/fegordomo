@@ -1,0 +1,4 @@
+{
+    "env": "development",
+    "apiUrl": "http://localhost:8080/devices/"
+}

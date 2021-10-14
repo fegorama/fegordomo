@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-ManagerApplication<manager>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
+            "mainClass": "com.fegorsoft.fegordomo.manager.ManagerApplication",
+            "projectName": "manager",
+            "args": ""
+        }
+    ]
+}

@@ -9,21 +9,36 @@
  * Licensed under the EUPL-1.2-or-later
  */
 
-#include <ESPAsyncWebServer.h>
+//#include <ESPAsyncWebServer.h>
 #include <SPIFFS.h>
 #include <ArduinoJson.h>
 
-#include "WebServer.h"
+//#include "WebServer.h"
+#include "WebSecServer.h"
 #include "UtilsConnection.h"
 
-void setup()
-{
+WebSecServer *webSecServer = new WebSecServer();
+
+void setup() {
 	Serial.begin(115200);
 	ConnectWiFi_STA(true);
-	WebServer *webServer = new WebServer();
-	webServer->initServer();
+
+/*
+	Serial.print(F("Inizializing FS..."));
+  	if (SPIFFS.begin()){
+    	Serial.println(F("done."));
+
+  	} else {
+    	Serial.println(F("fail!"));
+  	}
+*/
+
+//	WebServer *webServer = new WebServer();
+//	webServer->initServer();
+	webSecServer->initServer();
 }
 
-void loop()
-{
+void loop() {
+	webSecServer->secureServer->loop();
+	delay(1);
 }

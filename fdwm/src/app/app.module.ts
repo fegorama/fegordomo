@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -11,7 +11,11 @@ import { AddDeviceComponent } from './components/add-device/add-device.component
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { EditDeviceComponent } from './components/edit-device/edit-device.component'
+import { ConfigService } from './services/config.service';
 
+function initializeApp(appConfig: ConfigService) {
+  return () => appConfig.loadConfig();
+}
 @NgModule({
   declarations: [
     AppComponent,
@@ -28,7 +32,14 @@ import { EditDeviceComponent } from './components/edit-device/edit-device.compon
     FormsModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [
+    {
+      provide: APP_INITIALIZER,     
+      useFactory: initializeApp,      
+      deps: [ConfigService],      
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
