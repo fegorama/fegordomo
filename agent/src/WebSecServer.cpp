@@ -106,6 +106,10 @@ void WebSecServer::initServer()
     }
 }
 
+boolean WebSecServer::isRunning() {
+  return secureServer->isRunning();
+}
+
 void middlewareAuthentication(HTTPRequest * req, HTTPResponse * res, std::function<void()> next) {
   // Unset both headers to discard any value from the client
   // This prevents authentication bypass by a client that just sets X-USERNAME

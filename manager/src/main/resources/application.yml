@@ -39,5 +39,9 @@ springdoc:
     api-docs.path: /api-docs
     swagger-ui.path: /swagger-ui-custom.html
 
+mqtt:
+    username: fegordomo
+    password: fegordomo
+    
 fdwm:
     url: http://localhost:4200

@@ -14,31 +14,41 @@
 #include <ArduinoJson.h>
 
 //#include "WebServer.h"
+#include "Config.h"
 #include "WebSecServer.h"
 #include "UtilsConnection.h"
+#include "MqttClient.h"
 
 WebSecServer *webSecServer = new WebSecServer();
+MqttClient *mqttClient = new MqttClient();
+Config *config = new Config();
 
 void setup() {
 	Serial.begin(115200);
+	Serial.setTimeout(500);
+
+	config->load();
 	ConnectWiFi_STA(true);
 
-/*
-	Serial.print(F("Inizializing FS..."));
-  	if (SPIFFS.begin()){
-    	Serial.println(F("done."));
+//	webSecServer->initServer();
 
-  	} else {
-    	Serial.println(F("fail!"));
-  	}
-*/
-
-//	WebServer *webServer = new WebServer();
-//	webServer->initServer();
-	webSecServer->initServer();
+	/* MQTT Client
+	 */
+	mqttClient->init();
+	mqttClient->reconnect();
 }
 
 void loop() {
-	webSecServer->secureServer->loop();
+	/* MQTT Client Service
+	*/
+	if (!mqttClient->isConnected()) {
+		mqttClient->reconnect();
+	}
+
+	mqttClient->loop();
+
+	/* Web Secure Server
+	*/
+//	webSecServer->secureServer->loop();
 	delay(1);
 }

@@ -31,6 +31,7 @@ public:
     WebSecServer();
     void initServer();
     HTTPSServer *secureServer;
+    boolean isRunning();
 };
 
 #endif

@@ -14,15 +14,29 @@
 #include <ESP8266WiFi.h>
 #endif
 
-#include "config.h"
+#include "UtilsConnection.h"
+
+#ifndef CONFIG_H
+#include "Config.h"
+#endif
+
+const char *ssid = "FIDONET";
+const char *password = "Manual_de_BASIC2";
+const char *hostname = "ESP32_POOL";
+
+IPAddress ip(192, 168, 1, 200);
+IPAddress gateway(192, 168, 1, 1);
+IPAddress subnet(255, 255, 255, 0);
 
 /**
  * Conexión por Wifi en modo STA
  */
 void ConnectWiFi_STA(bool useStaticIP = false)
 {
-  Serial.println("");
-  WiFi.mode(WIFI_STA);
+  delay(10);
+  //WiFi.mode(WIFI_STA);
+  Serial.print("Connecting to ");
+  Serial.println(ssid);
   WiFi.begin(ssid, password);
 
   if (useStaticIP)
@@ -30,15 +44,17 @@ void ConnectWiFi_STA(bool useStaticIP = false)
 
   while (WiFi.status() != WL_CONNECTED)
   {
-    delay(1000);
+    delay(500);
     Serial.print('.');
   }
 
+  randomSeed(micros());
   Serial.println("");
   Serial.print("Iniciado STA:\t");
   Serial.println(ssid);
   Serial.print("IP address:\t");
   Serial.println(WiFi.localIP());
+  // WiFi.printDiag(Serial);
 }
 
 /**
@@ -63,4 +79,5 @@ void ConnectWiFi_AP(bool useStaticIP = false)
   Serial.println(ssid);
   Serial.print("IP address:\t");
   Serial.println(WiFi.softAPIP());
+  // WiFi.printDiag(Serial);
 }

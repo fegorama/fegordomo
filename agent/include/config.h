@@ -1,5 +1,5 @@
 /**
- * @file 	config.h
+ * @file 	Config.h
  * @brief 	Configuración general
  * 
  * @author 	Fernando González (Fegor)
@@ -11,12 +11,25 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
-const char *ssid = "FIDONET";
-const char *password = "Manual_de_BASIC2";
-const char *hostname = "ESP32_POOL";
+using namespace std;
+class Config {
+    private:
+        const char* FILE_NAME = "/config.json" ;
 
-IPAddress ip(192, 168, 1, 200);
-IPAddress gateway(192, 168, 1, 1);
-IPAddress subnet(255, 255, 255, 0);
+        string wifiSSID = "FIDONET";
+        string wifiPassword = "Manual_de_BASIC2";
+        string wifiHostname = "ESP32_POOL";
 
+        char staticIP[16] = "192.168.1.200";
+        char staticGW[16] = "192.168.1.1";
+        char staticSN[16] = "255.255.255.0";
+
+        string mqttUsername = "fegordomo";
+        string mqttPassword = "fegordomo";
+
+    public:
+        Config();
+        void load();
+        void save();
+};
 #endif
