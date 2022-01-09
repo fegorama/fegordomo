@@ -1,0 +1,10 @@
+{
+	"folders": [
+		{
+			"path": "esp32"
+		}
+	],
+	"settings": {
+		"java.configuration.updateBuildConfiguration": "automatic"
+	}
+}
