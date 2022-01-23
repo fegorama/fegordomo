@@ -1,12 +1,16 @@
 # Complete project details at https://RandomNerdTutorials.com
 
+from message import Message
+
+
 def sub_cb(topic, msg):
   print((topic, msg))
+  message = Message()
+  message.exec(msg)
   if topic == b'notification' and msg == b'received':
     print('ESP received hello message')
 
 def connect_and_subscribe():
-  
   global client_id, mqtt_server, mqtt_port, mqtt_user, mqtt_passwd, topic_sub
   #client = MQTTClient(client_id, mqtt_server, mqtt_port, mqtt_user, mqtt_passwd)
   client = MQTTClient(client_id, mqtt_server)
@@ -21,7 +25,8 @@ def restart_and_reconnect():
   rtc = machine.RTC()
   print(rtc.datetime())
   time.sleep(10)
-  machine.reset()
+  #machine.reset()
+  connect_and_subscribe()
 
 try:
   client = connect_and_subscribe()
@@ -31,10 +36,10 @@ except OSError as e:
 while True:
   try:
     client.check_msg()
-    if (time.time() - last_message) > message_interval:
-      msg = b'Hello #%d' % counter
-      client.publish(topic_pub, msg)
-      last_message = time.time()
-      counter += 1
+    #if (time.time() - last_message) > message_interval:
+      #msg = b'Hello #%d' % counter
+      #client.publish(topic_pub, msg)
+      #last_message = time.time()
+      #counter += 1
   except OSError as e:
     restart_and_reconnect()

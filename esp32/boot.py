@@ -15,10 +15,10 @@ gc.collect()
   
 ssid = 'SKYNET'
 password = 'Manual_de_BASIC2'
-mqtt_server = b'192.168.2.100'
-mqtt_port = b'1883'
-mqtt_user = b'fegordomo'
-mqtt_passwd = b'fegordomo'
+mqtt_server = '192.168.2.100'
+mqtt_port = '1883'
+mqtt_user = 'fegordomo'
+mqtt_passwd = 'fegordomo'
 #EXAMPLE IP ADDRESS
 #mqtt_server = '192.168.1.144'
 client_id = ubinascii.hexlify(machine.unique_id())
