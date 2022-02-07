@@ -5,12 +5,14 @@ except:
 import ustruct as struct
 from ubinascii import hexlify
 
+
 class MQTTException(Exception):
     pass
 
+
 class MQTTClient:
 
-    def __init__(self, client_id, server, port=0, user=None, password=None, keepalive=100,
+    def __init__(self, client_id, server, port=0, user=None, password=None, keepalive=-1,
                  ssl=False, ssl_params={}):
         if port == 0:
             port = 8883 if ssl else 1883
@@ -56,7 +58,8 @@ class MQTTClient:
         self.lw_retain = retain
 
     def connect(self, clean_session=True):
-        print("Connecting... %s, %s, %s, %s, %s" % (self.client_id, self.server, self.port, self.user, self.pswd))
+        print("Connecting... %s, %s, %s, %s, %s" %
+              (self.client_id, self.server, self.port, self.user, self.pswd))
         self.sock = socket.socket()
         addr = socket.getaddrinfo(self.server, self.port)[0][-1]
         self.sock.connect(addr)
@@ -159,7 +162,7 @@ class MQTTClient:
             op = self.wait_msg()
             if op == 0x90:
                 resp = self.sock.read(4)
-                #print(resp)
+                # print(resp)
                 assert resp[1] == pkt[2] and resp[2] == pkt[3]
                 if resp[3] == 0x80:
                     raise MQTTException(resp[3])
