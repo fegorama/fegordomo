@@ -12,15 +12,15 @@
 #define MQTTCLIENT_H
 
 #include <WiFi.h>
-#include <PubSubClient.h>
+#include <PubSubClient.h>   
 
 using namespace std;
 
 class MqttClient {
     private:
-        const char* mqtt_topic_receiver = "/casa/depuradora/rx";
-        const char* mqtt_topic_publish = "/casa/depuradora/tx";
-        const char* mqtt_server = "192.168.1.100"; // "broker.mqtt-dashboard.com";
+        const char* mqtt_topic_receiver = "pool_inbound";
+        const char* mqtt_topic_publish = "pool_outbound";
+        const char* mqtt_server = "192.168.2.2"; // "broker.mqtt-dashboard.com";
         
         IPAddress mqtt_ip;
 
@@ -40,6 +40,7 @@ class MqttClient {
         void reconnect();
         boolean isConnected();
         void loop();
+        void pub(const char *msg);
 };
 
 #endif

@@ -20,12 +20,13 @@
 #include "Config.h"
 #endif
 
-const char *ssid = "FIDONET";
+// TODO Cambiar y usar los datos de configuración
+const char *ssid = "SKYNET";
 const char *password = "Manual_de_BASIC2";
 const char *hostname = "ESP32_POOL";
 
-IPAddress ip(192, 168, 1, 200);
-IPAddress gateway(192, 168, 1, 1);
+IPAddress ip(192, 168, 2, 200);
+IPAddress gateway(192, 168, 2, 1);
 IPAddress subnet(255, 255, 255, 0);
 
 /**

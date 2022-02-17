@@ -16,12 +16,12 @@ class Config {
     private:
         const char* FILE_NAME = "/config.json" ;
 
-        string wifiSSID = "FIDONET";
+        string wifiSSID = "SKYNET";
         string wifiPassword = "Manual_de_BASIC2";
         string wifiHostname = "ESP32_POOL";
 
-        char staticIP[16] = "192.168.1.200";
-        char staticGW[16] = "192.168.1.1";
+        char staticIP[16] = "192.168.2.200";
+        char staticGW[16] = "192.168.2.1";
         char staticSN[16] = "255.255.255.0";
 
         string mqttUsername = "fegordomo";

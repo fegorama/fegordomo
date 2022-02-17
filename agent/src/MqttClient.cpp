@@ -1,4 +1,5 @@
 #include <PubSubClient.h>
+#include <MessageManager.h>
 #include "MqttClient.h"
 
 // Update these with values suitable for your network.
@@ -71,28 +72,8 @@ void setup_wifi() {
 
 void MqttClient::callback(char *topic, byte *payload, unsigned int length)
 {
-  Serial.print("Message arrived [");
-  Serial.print(topic);
-  Serial.print("] ");
-
-  for (int i = 0; i < length; i++)
-  {
-    Serial.print((char)payload[i]);
-  }
-
-  Serial.println();
-
-  // Switch on the LED if an 1 was received as first character
-  if ((char)payload[0] == '1')
-  {
-    digitalWrite(BUILTIN_LED, LOW); // Turn the LED on (Note that LOW is the voltage level
-    // but actually the LED is on; this is because
-    // it is acive low on the ESP-01)
-  }
-  else
-  {
-    digitalWrite(BUILTIN_LED, HIGH); // Turn the LED off by making the voltage HIGH
-  }
+  MessageManager* messageManager = new MessageManager();
+  messageManager->proccess(topic, payload, length);
 }
 
 void MqttClient::reconnect()
@@ -101,27 +82,31 @@ void MqttClient::reconnect()
   while (!client.connected())
   {
     Serial.print("Attempting MQTT connection...");
-    String clientId = "ESP32Client-";
-    clientId += String(random(0xffff), HEX);
+    String clientId = "ESP32Client-" + String(random(0xffff), HEX);
     Serial.println(clientId.c_str());
     // Attempt to connect
-    if (client.connect(clientId.c_str(), "fegordomo", "fegordomo"))
+    if (this->client.connect(clientId.c_str(), "fegordomo", "fegordomo"))
     {
       Serial.println("Connected");
       // Once connected, publish an announcement...
-      client.publish(mqtt_topic_publish, "hello world");
+      this->client.publish(mqtt_topic_publish, clientId.c_str());
       // ... and resubscribe
-      client.subscribe(mqtt_topic_receiver);
+      this->client.subscribe(mqtt_topic_receiver);
     }
     else
     {
       Serial.print("failed, rc=");
-      Serial.print(client.state());
+      Serial.print(this->client.state());
       Serial.println(" try again in 5 seconds");
       // Wait 5 seconds before retrying
       delay(5000);
     }
   }
+}
+
+void MqttClient::pub(const char *msg)
+{
+  this->client.publish(mqtt_topic_publish, msg);
 }
 
 /*
