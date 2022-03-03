@@ -63,8 +63,13 @@ springdoc:
     swagger-ui.path: /swagger-ui-custom.html
 
 mqtt:
+    url: tcp://127.0.0.1:1883
     username: fegordomo
     password: fegordomo
-    
+    client-id: fdc
+    default-topic: default
+    timeout: 15
+    keepalive: 30
+
 fdwm:
     url: http://localhost:4200

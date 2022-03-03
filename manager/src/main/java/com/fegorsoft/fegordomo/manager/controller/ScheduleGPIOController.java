@@ -161,6 +161,7 @@ public class ScheduleGPIOController {
         jobDataMap.put("ip", scheduleGPIO.getIp());
         jobDataMap.put("cronTriggerOn", scheduleGPIO.getCronTriggerOn());
         jobDataMap.put("cronTriggerOff", scheduleGPIO.getCronTriggerOff());
+        jobDataMap.put("deviceName", scheduleGPIO.getDeviceName());
 
         return JobBuilder.newJob(GPIOJob.class).withIdentity("gpioId-" + scheduleGPIO.getGpioId(), GPIO_GROUP_JOB)
                 .withDescription("GPIO Job").usingJobData(jobDataMap).storeDurably().build();

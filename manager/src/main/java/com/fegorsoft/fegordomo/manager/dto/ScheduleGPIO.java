@@ -7,6 +7,7 @@ public class ScheduleGPIO {
     private String cronTriggerOn;
     private String cronTriggerOff;
     private boolean active;
+    private String deviceName;
 
     public ScheduleGPIO() {
     }
@@ -67,6 +68,14 @@ public class ScheduleGPIO {
 
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    public String getDeviceName() {
+        return deviceName;
+    }
+
+    public void setDeviceName(String deviceName) {
+        this.deviceName = deviceName;
     }
 
 }
