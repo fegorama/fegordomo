@@ -1,8 +1,8 @@
 import connexion
 import six
 
-from ..models.device import Device  # noqa: E501
-from ..models.devices import Devices  # noqa: E501
+from .. models.device import Device  # noqa: E501
+from .. models.devices import Devices  # noqa: E501
 from .. import util
 
 from api.core import devices
