@@ -41,7 +41,8 @@ jobs:
       run: | 
         #Set-ExecutionPolicy -Scope LocalMachine unrestricted -Force
         cd ./manager
-        mvn deploy -s $GITHUB_WORKSPACE/settings.xml
+        echo "ya está"
+        #mvn deploy -s $GITHUB_WORKSPACE/settings.xml
         #Set-ExecutionPolicy -Scope LocalMachine restricted -Force
       env:
         GITHUB_TOKEN: ${{ github.token }}
