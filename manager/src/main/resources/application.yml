@@ -61,6 +61,7 @@ spring:
 springdoc:
     api-docs.path: /api-docs
     swagger-ui.path: /swagger-ui-custom.html
+    # http://localhost:8181/manager/swagger-ui/index.html?configUrl=/manager/api-docs/swagger-config#
 
 mqtt:
     url: tcp://127.0.0.1:1883

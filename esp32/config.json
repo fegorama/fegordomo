@@ -1,1 +1,0 @@
-{"ssid": "SKYNET", "mqtt_user": "fegordomo", "password": "Manual_de_BASIC2", "mqtt_server": "192.168.2.2", "mqtt_passwd": "fegordomo", "mqtt_topic_sub": "Pool", "mqtt_topic_pub": "Central", "mqtt_port": "1883"}
