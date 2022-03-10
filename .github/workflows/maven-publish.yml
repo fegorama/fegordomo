@@ -33,7 +33,8 @@ jobs:
       run: | 
         #Set-ExecutionPolicy -Scope LocalMachine unrestricted -Force
         cd ./manager
-        mvn -B package --file pom.xml
+        #mvn -B package --file pom.xml
+        mvn clean package -DskipTests=true
         #Set-ExecutionPolicy -Scope LocalMachine restricted -Force
 
     - name: Publish to GitHub Packages Apache Maven
