@@ -29,20 +29,16 @@ jobs:
     #    server-id: github # Value of the distributionManagement/repository/id field of the pom.xml
     #    settings-path: ${{ github.workspace }} # location for the settings.xml file
 
-    - name: Build with Maven
+    - name: Build
       run: | 
-        #Set-ExecutionPolicy -Scope LocalMachine unrestricted -Force
         cd ./manager
         #mvn -B package --file pom.xml
         mvn clean package -DskipTests=true
-        #Set-ExecutionPolicy -Scope LocalMachine restricted -Force
 
-    - name: Publish to GitHub Packages Apache Maven
+    - name: Deploy
       run: | 
-        #Set-ExecutionPolicy -Scope LocalMachine unrestricted -Force
         cd ./manager
-        echo "ya está"
+        echo "Realizar un scp para enviar el JAR a la centralita Raspberry Pi"
         #mvn deploy -s $GITHUB_WORKSPACE/settings.xml
-        #Set-ExecutionPolicy -Scope LocalMachine restricted -Force
       env:
         GITHUB_TOKEN: ${{ github.token }}
