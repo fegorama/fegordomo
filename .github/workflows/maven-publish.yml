@@ -35,6 +35,7 @@ jobs:
         cd ./manager
         mvn -B package --file pom.xml
         Set-ExecutionPolicy -Scope LocalMachine restricted -Force
+        
 
     - name: Publish to GitHub Packages Apache Maven
       run: | 
