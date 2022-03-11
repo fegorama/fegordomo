@@ -6,8 +6,8 @@ name: Manager
 on:
   push:
     branches: [ master ]
-  pull_request:
-    branches: [ master ]
+  #pull_request:
+    #branches: [ master ]
   release:
     types: [created]
 
@@ -39,6 +39,7 @@ jobs:
       run: | 
         cd ./manager
         echo "Realizar un scp para enviar el JAR a la centralita Raspberry Pi"
+        echo $GITHUB_WORKSPACE
         #mvn deploy -s $GITHUB_WORKSPACE/settings.xml
       env:
         GITHUB_TOKEN: ${{ github.token }}
