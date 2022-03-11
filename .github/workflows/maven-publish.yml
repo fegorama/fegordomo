@@ -44,7 +44,7 @@ jobs:
       run: | 
         cd ./manager
         #mvn -B package --file pom.xml
-        mvn clean -B package --file pom-xml -DskipTests=true
+        mvn -B clean package --file pom.xml -DskipTests=true
         
     - name: Deploy
       run: |
