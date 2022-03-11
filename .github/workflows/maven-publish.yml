@@ -37,12 +37,6 @@ jobs:
         key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
         restore-keys: ${{ runner.os }}-m2  
         
-    - name: Set up Maven
-      uses: s4u/setup-maven-action@v2.5.0
-      with:
-        java-version: 11
-        maven-version: 3.5.4
-        
     - name: Build
       run: | 
         cd ./manager
