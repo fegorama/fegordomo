@@ -1,0 +1,89 @@
+2022-03-11 19:53:06,811 INFO com.fegorsoft.fegordomo.manager.ManagerApplication [restartedMain] Starting ManagerApplication using Java 11.0.9 on Nostromo with PID 19568 (C:\codigofuente\fegorsoft\fegordomo\manager\target\classes started by fegor in C:\codigofuente\fegorsoft\fegordomo\manager)
+2022-03-11 19:53:06,811 DEBUG com.fegorsoft.fegordomo.manager.ManagerApplication [restartedMain] Running with Spring Boot v2.5.2, Spring v5.3.8
+2022-03-11 19:53:06,811 INFO com.fegorsoft.fegordomo.manager.ManagerApplication [restartedMain] The following profiles are active: prod
+2022-03-11 19:53:06,922 INFO org.springframework.data.repository.config.RepositoryConfigurationDelegate [restartedMain] Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2022-03-11 19:53:06,933 INFO org.springframework.data.repository.config.RepositoryConfigurationDelegate [restartedMain] Finished Spring Data repository scanning in 11 ms. Found 2 JPA repository interfaces.
+2022-03-11 19:53:06,962 INFO org.springframework.integration.config.DefaultConfiguringBeanFactoryPostProcessor [restartedMain] No bean named 'errorChannel' has been explicitly defined. Therefore, a default PublishSubscribeChannel will be created.
+2022-03-11 19:53:06,962 INFO org.springframework.integration.config.DefaultConfiguringBeanFactoryPostProcessor [restartedMain] No bean named 'integrationHeaderChannelRegistry' has been explicitly defined. Therefore, a default DefaultHeaderChannelRegistry will be created.
+2022-03-11 19:53:06,966 INFO org.springframework.context.support.PostProcessorRegistrationDelegate$BeanPostProcessorChecker [restartedMain] Bean 'org.springframework.integration.config.IntegrationManagementConfiguration' of type [org.springframework.integration.config.IntegrationManagementConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2022-03-11 19:53:06,967 INFO org.springframework.context.support.PostProcessorRegistrationDelegate$BeanPostProcessorChecker [restartedMain] Bean 'integrationChannelResolver' of type [org.springframework.integration.support.channel.BeanFactoryChannelResolver] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2022-03-11 19:53:06,967 INFO org.springframework.context.support.PostProcessorRegistrationDelegate$BeanPostProcessorChecker [restartedMain] Bean 'integrationDisposableAutoCreatedBeans' of type [org.springframework.integration.config.annotation.Disposables] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2022-03-11 19:53:06,987 INFO org.springframework.boot.web.embedded.tomcat.TomcatWebServer [restartedMain] Tomcat initialized with port(s): 8181 (http)
+2022-03-11 19:53:06,987 INFO org.apache.catalina.core.StandardService [restartedMain] Starting service [Tomcat]
+2022-03-11 19:53:06,987 INFO org.apache.catalina.core.StandardEngine [restartedMain] Starting Servlet engine: [Apache Tomcat/9.0.48]
+2022-03-11 19:53:07,002 INFO org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/manager] [restartedMain] Initializing Spring embedded WebApplicationContext
+2022-03-11 19:53:07,002 INFO org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext [restartedMain] Root WebApplicationContext: initialization completed in 190 ms
+2022-03-11 19:53:07,020 INFO org.hibernate.jpa.internal.util.LogHelper [restartedMain] HHH000204: Processing PersistenceUnitInfo [name: default]
+2022-03-11 19:53:07,023 INFO com.zaxxer.hikari.HikariDataSource [restartedMain] HikariPool-4 - Starting...
+2022-03-11 19:53:07,028 INFO com.zaxxer.hikari.HikariDataSource [restartedMain] HikariPool-4 - Start completed.
+2022-03-11 19:53:07,028 INFO org.hibernate.dialect.Dialect [restartedMain] HHH000400: Using dialect: org.hibernate.dialect.MariaDB103Dialect
+2022-03-11 19:53:07,165 INFO org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator [restartedMain] HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2022-03-11 19:53:07,165 INFO org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean [restartedMain] Initialized JPA EntityManagerFactory for persistence unit 'default'
+2022-03-11 19:53:07,170 INFO com.fegorsoft.fegordomo.manager.messages.MQTTService [restartedMain] Call to MQTTService
+2022-03-11 19:53:07,171 INFO com.fegorsoft.fegordomo.manager.messages.MQTTService [restartedMain] MQTT client: 'fdc_paho66483087865500' created for url: tcp://127.0.0.1:1883
+2022-03-11 19:53:07,491 INFO com.fegorsoft.fegordomo.manager.messages.MQTTService [restartedMain] MQTT Connected: 
+============== Connection options ==============
+SocketFactory               :  null
+CleanSession                :  true
+MqttVersion                 :  0
+KeepAliveInterval           :  30
+ConTimeout                  :  15
+UserName                    :  fegordomo
+SSLProperties               :  null
+WillDestination             :  null
+==========================================
+
+2022-03-11 19:53:07,546 INFO org.quartz.impl.StdSchedulerFactory [restartedMain] Using default implementation for ThreadExecutor
+2022-03-11 19:53:07,546 INFO org.quartz.core.SchedulerSignalerImpl [restartedMain] Initialized Scheduler Signaller of type: class org.quartz.core.SchedulerSignalerImpl
+2022-03-11 19:53:07,546 INFO org.quartz.core.QuartzScheduler [restartedMain] Quartz Scheduler v.2.3.2 created.
+2022-03-11 19:53:07,546 INFO org.springframework.scheduling.quartz.LocalDataSourceJobStore [restartedMain] Using db table-based data access locking (synchronization).
+2022-03-11 19:53:07,546 INFO org.springframework.scheduling.quartz.LocalDataSourceJobStore [restartedMain] JobStoreCMT initialized.
+2022-03-11 19:53:07,546 INFO org.quartz.core.QuartzScheduler [restartedMain] Scheduler meta-data: Quartz Scheduler (v2.3.2) 'quartzScheduler' with instanceId 'NON_CLUSTERED'
+  Scheduler class: 'org.quartz.core.QuartzScheduler' - running locally.
+  NOT STARTED.
+  Currently in standby mode.
+  Number of jobs executed: 0
+  Using thread pool 'org.quartz.simpl.SimpleThreadPool' - with 5 threads.
+  Using job-store 'org.springframework.scheduling.quartz.LocalDataSourceJobStore' - which supports persistence. and is not clustered.
+
+2022-03-11 19:53:07,546 INFO org.quartz.impl.StdSchedulerFactory [restartedMain] Quartz scheduler 'quartzScheduler' initialized from an externally provided properties instance.
+2022-03-11 19:53:07,546 INFO org.quartz.impl.StdSchedulerFactory [restartedMain] Quartz scheduler version: 2.3.2
+2022-03-11 19:53:07,546 INFO org.quartz.core.QuartzScheduler [restartedMain] JobFactory set to: org.springframework.scheduling.quartz.SpringBeanJobFactory@4db40239
+2022-03-11 19:53:07,587 INFO org.springframework.boot.autoconfigure.web.servlet.WelcomePageHandlerMapping [restartedMain] Adding welcome page: class path resource [static/index.html]
+2022-03-11 19:53:07,679 INFO org.springframework.boot.devtools.autoconfigure.OptionalLiveReloadServer [restartedMain] LiveReload server is running on port 35729
+2022-03-11 19:53:07,687 INFO org.springframework.integration.endpoint.EventDrivenConsumer [restartedMain] Adding {logging-channel-adapter:_org.springframework.integration.errorLogger} as a subscriber to the 'errorChannel' channel
+2022-03-11 19:53:07,687 INFO org.springframework.integration.channel.PublishSubscribeChannel [restartedMain] Channel 'application.errorChannel' has 1 subscriber(s).
+2022-03-11 19:53:07,687 INFO org.springframework.integration.endpoint.EventDrivenConsumer [restartedMain] started bean '_org.springframework.integration.errorLogger'
+2022-03-11 19:53:07,689 INFO org.springframework.boot.web.embedded.tomcat.TomcatWebServer [restartedMain] Tomcat started on port(s): 8181 (http) with context path '/manager'
+2022-03-11 19:53:07,689 INFO org.springframework.scheduling.quartz.SchedulerFactoryBean [restartedMain] Starting Quartz Scheduler now
+2022-03-11 19:53:07,697 INFO org.springframework.scheduling.quartz.LocalDataSourceJobStore [restartedMain] Freed 0 triggers from 'acquired' / 'blocked' state.
+2022-03-11 19:53:07,700 INFO org.springframework.scheduling.quartz.LocalDataSourceJobStore [restartedMain] Recovering 0 jobs that were in-progress at the time of the last shut-down.
+2022-03-11 19:53:07,700 INFO org.springframework.scheduling.quartz.LocalDataSourceJobStore [restartedMain] Recovery complete.
+2022-03-11 19:53:07,701 INFO org.springframework.scheduling.quartz.LocalDataSourceJobStore [restartedMain] Removed 0 'complete' triggers.
+2022-03-11 19:53:07,703 INFO org.springframework.scheduling.quartz.LocalDataSourceJobStore [restartedMain] Removed 0 stale fired job entries.
+2022-03-11 19:53:07,704 INFO org.quartz.core.QuartzScheduler [restartedMain] Scheduler quartzScheduler_$_NON_CLUSTERED started.
+2022-03-11 19:53:07,707 INFO com.fegorsoft.fegordomo.manager.ManagerApplication [restartedMain] Started ManagerApplication in 0.921 seconds (JVM running for 264.118)
+2022-03-11 19:53:07,707 INFO org.springframework.boot.devtools.autoconfigure.ConditionEvaluationDeltaLoggingListener [restartedMain] Condition evaluation unchanged
+2022-03-11 19:53:15,021 INFO com.fegorsoft.fegordomo.manager.job.GPIOJob [quartzScheduler_Worker-1] Executing Job with key gpio-jobs.gpioId-4
+2022-03-11 19:53:15,021 INFO com.fegorsoft.fegordomo.manager.job.GPIOJob [quartzScheduler_Worker-1] Trigger: GPIO Trigger for mode on
+2022-03-11 19:53:15,022 INFO com.fegorsoft.fegordomo.manager.messages.MQTTService [MQTT Call: fdc_paho66483087865500] Message delivered
+2022-03-11 19:53:15,022 INFO com.fegorsoft.fegordomo.manager.messages.MQTTService [MQTT Call: fdc_paho66483087865500] Token: fdc_paho66483087865500
+2022-03-11 19:53:15,022 INFO com.fegorsoft.fegordomo.manager.messages.MQTTService [MQTT Call: fdc_paho66483087865500] Deliverd message :{"gpio":"26","mode":"2","action":"1"}
+2022-03-11 19:53:15,122 INFO com.fegorsoft.fegordomo.manager.messages.MQTTService [quartzScheduler_Worker-1] Message is published completely: true, topic: '192.168.1.200', message: '{"gpio":"26","mode":"2","action":"1"}']
+2022-03-11 19:53:30,012 INFO com.fegorsoft.fegordomo.manager.job.GPIOJob [quartzScheduler_Worker-2] Executing Job with key gpio-jobs.gpioId-4
+2022-03-11 19:53:30,012 INFO com.fegorsoft.fegordomo.manager.job.GPIOJob [quartzScheduler_Worker-2] Trigger: GPIO Trigger for mode off
+2022-03-11 19:53:30,013 INFO com.fegorsoft.fegordomo.manager.messages.MQTTService [MQTT Call: fdc_paho66483087865500] Message delivered
+2022-03-11 19:53:30,013 INFO com.fegorsoft.fegordomo.manager.messages.MQTTService [MQTT Call: fdc_paho66483087865500] Token: fdc_paho66483087865500
+2022-03-11 19:53:30,013 INFO com.fegorsoft.fegordomo.manager.messages.MQTTService [MQTT Call: fdc_paho66483087865500] Deliverd message :{"gpio":"26","mode":"2","action":"0"}
+2022-03-11 19:53:30,113 INFO com.fegorsoft.fegordomo.manager.messages.MQTTService [quartzScheduler_Worker-2] Message is published completely: true, topic: '192.168.1.200', message: '{"gpio":"26","mode":"2","action":"0"}']
+2022-03-11 19:53:41,234 INFO org.quartz.core.QuartzScheduler [Thread-33] Scheduler quartzScheduler_$_NON_CLUSTERED paused.
+2022-03-11 19:53:41,379 INFO org.springframework.integration.endpoint.EventDrivenConsumer [Thread-33] Removing {logging-channel-adapter:_org.springframework.integration.errorLogger} as a subscriber to the 'errorChannel' channel
+2022-03-11 19:53:41,380 INFO org.springframework.integration.channel.PublishSubscribeChannel [Thread-33] Channel 'application.errorChannel' has 0 subscriber(s).
+2022-03-11 19:53:41,380 INFO org.springframework.integration.endpoint.EventDrivenConsumer [Thread-33] stopped bean '_org.springframework.integration.errorLogger'
+2022-03-11 19:53:41,380 INFO org.springframework.scheduling.quartz.SchedulerFactoryBean [Thread-33] Shutting down Quartz Scheduler
+2022-03-11 19:53:41,380 INFO org.quartz.core.QuartzScheduler [Thread-33] Scheduler quartzScheduler_$_NON_CLUSTERED shutting down.
+2022-03-11 19:53:41,380 INFO org.quartz.core.QuartzScheduler [Thread-33] Scheduler quartzScheduler_$_NON_CLUSTERED paused.
+2022-03-11 19:53:41,381 INFO org.quartz.core.QuartzScheduler [Thread-33] Scheduler quartzScheduler_$_NON_CLUSTERED shutdown complete.
+2022-03-11 19:53:41,381 INFO org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean [Thread-33] Closing JPA EntityManagerFactory for persistence unit 'default'
+2022-03-11 19:53:41,381 INFO com.zaxxer.hikari.HikariDataSource [Thread-33] HikariPool-4 - Shutdown initiated...
+2022-03-11 19:53:41,389 INFO com.zaxxer.hikari.HikariDataSource [Thread-33] HikariPool-4 - Shutdown completed.

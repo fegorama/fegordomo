@@ -8,7 +8,7 @@ server:
 
 spring:
     profiles:
-        active: development
+        active: prod
     main:
         allow-bean-definition-overriding: true
     datasource:

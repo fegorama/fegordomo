@@ -4,13 +4,13 @@
 	<include
 		resource="org/springframework/boot/logging/logback/defaults.xml" />
 	<property name="LOG_FILE"
-		value="logs/fegordomo.log" />
+		value="logs/fegordomo-manager.log" />
 
 	<logger name="org.springframework" level="INFO" />
-    <logger name="com.softtek.inap" level="DEBUG" />
+    <logger name="com.fegorsoft.fegordomo" level="DEBUG" />
 
 	<!-- Development profile -->
-	<springProfile name="development">
+	<springProfile name="dev">
 		<appender name="APPENDER"
 			class="ch.qos.logback.core.ConsoleAppender">
  			<encoder>
@@ -23,7 +23,7 @@
 	</springProfile>
 
 	<!-- Staging/production profile -->
-	<springProfile name="!development">
+	<springProfile name="prod">
 		<appender name="APPENDER"
 			class="ch.qos.logback.core.rolling.RollingFileAppender">
 			<encoder>
