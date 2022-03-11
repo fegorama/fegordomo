@@ -29,6 +29,10 @@ jobs:
         settings-path: ${{ github.workspace }} # location for the settings.xml file
 
     - name: Build
+      uses: s4u/setup-maven-action@< version >
+        with:
+          java-version: 11
+          maven-version: [ '3.5.4', '3.6.3', '3.8.2' ]
       run: | 
         cd ./manager
         #mvn -B package --file pom.xml
