@@ -4,7 +4,7 @@
 	<include
 		resource="org/springframework/boot/logging/logback/defaults.xml" />
 	<property name="LOG_FILE"
-		value="/opt/fegordomo/logs/fegordomo-manager.log" />
+		value="./logs/fegordomo-manager.log" />
 
 	<logger name="org.springframework" level="INFO" />
     <logger name="com.fegorsoft.fegordomo" level="DEBUG" />
