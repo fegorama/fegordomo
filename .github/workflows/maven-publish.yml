@@ -46,7 +46,6 @@ jobs:
         #mvn -B package --file pom.xml
         mvn clean -B package --file pom-xml -DskipTests=true
         
-        
     - name: Deploy
       run: |
         scp ./manager/target/*.jar fegor@192.168.1.3:/opt/fegordomo/manager
