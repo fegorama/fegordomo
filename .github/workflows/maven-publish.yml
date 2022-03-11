@@ -3,7 +3,7 @@
 
 # Script for execution in Windows 10
 
-name: Manager
+name: FegorDOMO
 
 on:
   push:
@@ -25,7 +25,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     
-    - name: Set up JDK 11
+    - name: Setup JDK
       uses: actions/setup-java@v2
       with:
         java-version: 11
@@ -33,23 +33,23 @@ jobs:
         #server-id: github # Value of the distributionManagement/repository/id field of the pom.xml
         #settings-path: ${{ github.workspace }} # location for the settings.xml file
 
-    - name: Cache the Maven packages to speed up build
+    - name: Maven cache for speed
       uses: actions/cache@v1
       with:
         path: ~/.m2
         key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
         restore-keys: ${{ runner.os }}-m2  
         
-    - name: Build
+    - name: Build Manager
       run: | 
         cd ./manager
         #mvn -B package --file pom.xml
         mvn -B clean package --file pom.xml -DskipTests=true
         
-    - name: Deploy
+    - name: Deploy Manager
       run: |
-        scp ./manager/target/*.jar fegor@192.168.1.3:/opt/fegordomo/manager
         scp ./manager/target/classes/application.yml fegor@192.168.1.3:/opt/fegordomo/manager/config
+        scp ./manager/target/*.jar fegor@192.168.1.3:/opt/fegordomo/manager
         #mvn deploy -s $GITHUB_WORKSPACE/settings.xml
       env:
         GITHUB_TOKEN: ${{ github.token }}
