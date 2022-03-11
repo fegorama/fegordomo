@@ -39,7 +39,7 @@ jobs:
       run: | 
         cd ./manager
         echo "Realizar un scp para enviar el JAR a la centralita Raspberry Pi"
-        echo $GITHUB_WORKSPACE
+        echo %GITHUB_WORKSPACE%
         #mvn deploy -s $GITHUB_WORKSPACE/settings.xml
       env:
         GITHUB_TOKEN: ${{ github.token }}
