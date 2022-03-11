@@ -34,6 +34,7 @@ jobs:
         #mvn -B package --file pom.xml
         mvn clean package -DskipTests=true
 
+
     - name: Deploy
       uses: appleboy/scp-action@master
       with:
