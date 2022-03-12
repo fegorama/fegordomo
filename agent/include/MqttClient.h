@@ -20,7 +20,7 @@ class MqttClient {
     private:
         const char* mqtt_topic_receiver = "pool_inbound";
         const char* mqtt_topic_publish = "pool_outbound";
-        const char* mqtt_server = "192.168.2.2"; // "broker.mqtt-dashboard.com";
+        const char* mqtt_server = "192.168.2.100"; // "broker.mqtt-dashboard.com";
         
         IPAddress mqtt_ip;
 
