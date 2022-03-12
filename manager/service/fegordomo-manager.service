@@ -1,0 +1,15 @@
+[Unit]
+Description=FegorDOMO Manager
+Requires=mosquitto,mysql
+After=mosquitto,mysql
+
+[Service]
+User=fegor
+Group=fegor
+Restart=always
+ExecStart=/usr/bin/java -jar /opt/fegordomo/manager/manager-0.0.1-SNAPSHOT.jar
+SuccessExitStatus=143
+
+[Install]
+WantedBy=multi-user.target
+
