@@ -27,7 +27,6 @@ void setup() {
 	Serial.begin(115200);
 	Serial.setTimeout(500);
 
-
 	// config->save();
 	config->load();
 	ConnectWiFi_STA(true);

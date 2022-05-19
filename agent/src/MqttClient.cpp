@@ -26,6 +26,9 @@ void MqttClient::init()
   this->client.setClient(wifiClient);
   this->client.setServer(this->mqtt_ip, this->mqtt_port);
   this->client.setCallback(MqttClient::callback);
+  this->wifiClient.setCACert(ca_cert);
+  this->wifiClient.setCertificate(client_crt);
+  this->wifiClient.setPrivateKey(client_key);
 }
 
 boolean MqttClient::isConnected()
@@ -84,6 +87,7 @@ void MqttClient::reconnect()
     Serial.print("Attempting MQTT connection...");
     String clientId = "ESP32Client-" + String(random(0xffff), HEX);
     Serial.println(clientId.c_str());
+
     // Attempt to connect
     if (this->client.connect(clientId.c_str(), "fegordomo", "fegordomo"))
     {
