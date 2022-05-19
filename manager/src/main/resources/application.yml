@@ -65,7 +65,7 @@ springdoc:
     # http://localhost:8181/manager/swagger-ui/index.html?configUrl=/manager/api-docs/swagger-config#
 
 mqtt:
-    url: tcp://127.0.0.1:1883
+    url: tcp://localhost:1883
     username: fegordomo
     password: fegordomo
     client-id: fdc
