@@ -13,7 +13,6 @@ import javax.persistence.FetchType;
 import javax.persistence.CascadeType;
 import org.springframework.data.rest.core.annotation.RestResource;
 
-import java.net.InetAddress;
 import java.util.List;
 
 @Entity
@@ -35,8 +34,8 @@ public class Device {
     private String type; // ESP32, ArduinoUNO,...
 
     @NotBlank
-    @Column(name = "ip_address", nullable = false)
-    InetAddress ip;
+    @Column(name = "description", nullable = false)
+    String description;
 
     @NotBlank
     @Column(name = "enable", nullable = false)
@@ -44,7 +43,7 @@ public class Device {
 
     @RestResource(path = "deviceGPIO", rel="gpio")
     @OneToMany(mappedBy = "device", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    List<GPIO> gpios;
+    List<Operation> gpios;
 
     public long getId() {
         return id;
@@ -70,20 +69,20 @@ public class Device {
         this.type = type;
     }
 
-    public List<GPIO> getGpios() {
+    public List<Operation> getGpios() {
         return gpios;
     }
 
-    public void setGpios(List<GPIO> gpios) {
+    public void setGpios(List<Operation> gpios) {
         this.gpios = gpios;
     }
 
-    public InetAddress getIp() {
-        return ip;
+    public String getDescription() {
+        return description;
     }
 
-    public void setIp(InetAddress ip) {
-        this.ip = ip;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public boolean isEnable() {

@@ -8,10 +8,10 @@ import java.util.Set;
 import javax.validation.Valid;
 
 import com.fegorsoft.fegordomo.manager.dto.JobDTO;
-import com.fegorsoft.fegordomo.manager.dto.ScheduleGPIO;
+import com.fegorsoft.fegordomo.manager.dto.ScheduleOperation;
 import com.fegorsoft.fegordomo.manager.dto.TriggerDTO;
-import com.fegorsoft.fegordomo.manager.job.GPIOJob;
-import com.fegorsoft.fegordomo.manager.payload.ScheduleGPIOResponse;
+import com.fegorsoft.fegordomo.manager.job.OperationJob;
+import com.fegorsoft.fegordomo.manager.payload.ScheduleOperationResponse;
 
 import org.quartz.CronScheduleBuilder;
 import org.quartz.CronTrigger;
@@ -49,35 +49,35 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @EnableScheduling
 @RestController
 @RequestMapping(path = "/scheduler")
-@Tag(name = "Scheduler", description = "API for GPIO's scheduler")
-public class ScheduleGPIOController {
-    private static final Logger logger = LoggerFactory.getLogger(ScheduleGPIOController.class);
-    private static final String GPIO_GROUP_JOB = "gpio-jobs";
-    private static final String GPIO_GROUP_TRIGGER = "gpio-triggers";
+@Tag(name = "Scheduler", description = "API for Operation's scheduler")
+public class ScheduleOperationController {
+    private static final Logger logger = LoggerFactory.getLogger(ScheduleOperationController.class);
+    private static final String OPERATION_GROUP_JOB = "operation-jobs";
+    private static final String OPERATION_GROUP_TRIGGER = "operation-triggers";
 
     @Autowired
     private Scheduler scheduler;
 
     @Operation(summary = "Build job")
     @ApiResponses(value = { @ApiResponse(responseCode = "201", description = "job created", content = {
-            @Content(mediaType = "application/json", schema = @Schema(implementation = ScheduleGPIOResponse.class)) }),
+            @Content(mediaType = "application/json", schema = @Schema(implementation = ScheduleOperationResponse.class)) }),
             @ApiResponse(responseCode = "404", description = "Bad request", content = @Content) })
     @PostMapping(path = "/build")
-    public ScheduleGPIOResponse build(
-            @Parameter(description = "Schedule GPIO") @RequestBody @Valid ScheduleGPIO scheduleGPIO) {
+    public ScheduleOperationResponse build(
+            @Parameter(description = "Schedule Operation") @RequestBody @Valid ScheduleOperation scheduleOperation) {
 
-        return buildJob(scheduleGPIO);
+        return buildJob(scheduleOperation);
     }
 
     @Operation(summary = "Delete job")
     @ApiResponses(value = { @ApiResponse(responseCode = "201", description = "job deleted", content = {
-            @Content(mediaType = "application/json", schema = @Schema(implementation = ScheduleGPIOResponse.class)) }),
+            @Content(mediaType = "application/json", schema = @Schema(implementation = ScheduleOperationResponse.class)) }),
             @ApiResponse(responseCode = "404", description = "Bad request", content = @Content) })
-    @DeleteMapping(path = "/{gpioId}")
-    public ResponseEntity<String> delete(@Parameter(description = "GPIO ID") long gpioId) {
+    @DeleteMapping(path = "/{operationId}")
+    public ResponseEntity<String> delete(@Parameter(description = "Operation ID") long operationId) {
 
         try {
-            if (scheduler.deleteJob(new JobKey("gpioId-" + gpioId, GPIO_GROUP_JOB))) {
+            if (scheduler.deleteJob(new JobKey("operationId-" + operationId, OPERATION_GROUP_JOB))) {
                 return new ResponseEntity<>(HttpStatus.OK);
 
             } else {
@@ -126,15 +126,15 @@ public class ScheduleGPIOController {
         return jobsDTO;
     }
 
-    private ScheduleGPIOResponse buildJob(ScheduleGPIO scheduleGPIO) {
+    private ScheduleOperationResponse buildJob(ScheduleOperation scheduleOperation) {
         try {
-            JobDetail jobDetail = buildJobDetail(scheduleGPIO);
+            JobDetail jobDetail = buildJobDetail(scheduleOperation);
 
             Set<CronTrigger> cronTriggers = new HashSet<>();
             cronTriggers.add(buildJobTrigger(jobDetail, (byte) 1));
             cronTriggers.add(buildJobTrigger(jobDetail, (byte) 0));
 
-            if (scheduleGPIO.isActive()) {
+            if (scheduleOperation.isActive()) {
                 scheduler.scheduleJob(jobDetail, cronTriggers, true);
 
             } else {
@@ -143,28 +143,28 @@ public class ScheduleGPIOController {
                 scheduler.unscheduleJob(triggers.get(1).getKey());
             }
 
-            return new ScheduleGPIOResponse(true, jobDetail.getKey().getName(), jobDetail.getKey().getGroup(),
-                    "GPIO Scheduled Successfully!");
+            return new ScheduleOperationResponse(true, jobDetail.getKey().getName(), jobDetail.getKey().getGroup(),
+                    "Operation Scheduled Successfully!");
 
         } catch (SchedulerException ex) {
-            logger.error("Error scheduling GPIO", ex);
+            logger.error("Error scheduling Operation", ex);
 
-            return new ScheduleGPIOResponse(false, "Error scheduling GPIO. Please try later!");
+            return new ScheduleOperationResponse(false, "Error scheduling Operation. Please try later!");
         }
     }
 
-    private JobDetail buildJobDetail(ScheduleGPIO scheduleGPIO) {
+    private JobDetail buildJobDetail(ScheduleOperation scheduleOperation) {
         JobDataMap jobDataMap = new JobDataMap();
 
-        jobDataMap.put("gpioId", scheduleGPIO.getGpioId());
-        jobDataMap.put("gpio", scheduleGPIO.getGpio());
-        jobDataMap.put("ip", scheduleGPIO.getIp());
-        jobDataMap.put("cronTriggerOn", scheduleGPIO.getCronTriggerOn());
-        jobDataMap.put("cronTriggerOff", scheduleGPIO.getCronTriggerOff());
-        jobDataMap.put("deviceName", scheduleGPIO.getDeviceName());
+        jobDataMap.put("operationId", scheduleOperation.getOperationId());
+        jobDataMap.put("deviceName", scheduleOperation.getDeviceName());
+        jobDataMap.put("data", scheduleOperation.getData());
+        jobDataMap.put("cronTriggerOn", scheduleOperation.getCronTriggerOn());
+        jobDataMap.put("cronTriggerOff", scheduleOperation.getCronTriggerOff());
+        jobDataMap.put("deviceName", scheduleOperation.getDeviceName());
 
-        return JobBuilder.newJob(GPIOJob.class).withIdentity("gpioId-" + scheduleGPIO.getGpioId(), GPIO_GROUP_JOB)
-                .withDescription("GPIO Job").usingJobData(jobDataMap).storeDurably().build();
+        return JobBuilder.newJob(OperationJob.class).withIdentity("operationId-" + scheduleOperation.getOperationId(), OPERATION_GROUP_JOB)
+                .withDescription("Operation Job").usingJobData(jobDataMap).storeDurably().build();
     }
 
     private CronTrigger buildJobTrigger(JobDetail jobDetail, byte mode) {
@@ -178,8 +178,8 @@ public class ScheduleGPIOController {
         }
 
         return TriggerBuilder.newTrigger().forJob(jobDetail)
-                .withIdentity(jobDetail.getKey().getName() + "-" + (mode != 0 ? "on" : "off"), GPIO_GROUP_TRIGGER)
-                .withDescription("GPIO Trigger for mode " + (mode != 0 ? "on" : "off"))
+                .withIdentity(jobDetail.getKey().getName() + "-" + (mode != 0 ? "on" : "off"), OPERATION_GROUP_TRIGGER)
+                .withDescription("Operation Trigger for mode " + (mode != 0 ? "on" : "off"))
                 .withSchedule(CronScheduleBuilder.cronSchedule(cronTrigger)).build();
     }
 

@@ -2,12 +2,11 @@ package com.fegorsoft.fegordomo.manager;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.net.InetAddress;
 import java.net.UnknownHostException;
 
-import com.fegorsoft.fegordomo.manager.controller.ScheduleGPIOController;
-import com.fegorsoft.fegordomo.manager.dto.ScheduleGPIO;
-import com.fegorsoft.fegordomo.manager.payload.ScheduleGPIOResponse;
+import com.fegorsoft.fegordomo.manager.controller.ScheduleOperationController;
+import com.fegorsoft.fegordomo.manager.dto.ScheduleOperation;
+import com.fegorsoft.fegordomo.manager.payload.ScheduleOperationResponse;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -20,17 +19,17 @@ class ManagerApplicationTests {
 	}
 
 	@Test
-	void addCronGPIO() throws UnknownHostException {
-		ScheduleGPIO scheduleGPIO = new ScheduleGPIO();
-		scheduleGPIO.setGpioId((long) 1);
-		scheduleGPIO.setGpio((byte) 15);
-		scheduleGPIO.setIp("192.168.1.101");
-		scheduleGPIO.setCronTriggerOn("0/5 0 0 ? * * *");
-		scheduleGPIO.setCronTriggerOff("0/6 0 0 ? * * *");
+	void addCronOperation() throws UnknownHostException {
+		ScheduleOperation scheduleOperation = new ScheduleOperation();
+		scheduleOperation.setOperationId((long) 1);
+		scheduleOperation.setDeviceName("Depuradora");
+		scheduleOperation.setData("Test");
+		scheduleOperation.setCronTriggerOn("0/5 0 0 ? * * *");
+		scheduleOperation.setCronTriggerOff("0/6 0 0 ? * * *");
 
-		ScheduleGPIOController s = new ScheduleGPIOController();
-		ScheduleGPIOResponse res = s.build(scheduleGPIO);
+		ScheduleOperationController s = new ScheduleOperationController();
+		ScheduleOperationResponse res = s.build(scheduleOperation);
 
-		assertEquals("GPIO Scheduled Successfully!", res.getMessage());
+		assertEquals("Operation Scheduled Successfully!", res.getMessage());
 	}
 }

@@ -54,7 +54,7 @@ public class DevicesController {
         try {
             device.setName(deviceDTO.getName());
             device.setType(deviceDTO.getType());
-            device.setIp(InetAddress.getByName(deviceDTO.getIp()));
+            device.setDescription(deviceDTO.getDescription());
             device.setEnable(deviceDTO.isEnable());
             deviceRepository.save(device);
 
@@ -81,7 +81,7 @@ public class DevicesController {
         try {
             device.setName(deviceDTO.getName());
             device.setType(deviceDTO.getType());
-            device.setIp(InetAddress.getByName(deviceDTO.getIp()));
+            device.setDescription(deviceDTO.getDescription());
             device.setEnable(deviceDTO.isEnable());
             deviceRepository.save(device);
 

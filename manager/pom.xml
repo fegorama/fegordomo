@@ -100,7 +100,7 @@
 		<dependency>
 			<groupId>org.eclipse.paho</groupId>
 			<artifactId>org.eclipse.paho.client.mqttv3</artifactId>
-			<version>[1.2.0,)</version>
+			<version>[1.2.5,)</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.integration</groupId>
@@ -129,6 +129,12 @@
 			<version>${openapi.version}</version>
 		 </dependency>
 	--> 
+	<!-- Broker and client MQTT -->
+	<dependency>
+      <groupId>io.moquette</groupId>
+      <artifactId>moquette-broker</artifactId>
+      <version>0.15</version>
+	</dependency>
   </dependencies>
 
 	<build>

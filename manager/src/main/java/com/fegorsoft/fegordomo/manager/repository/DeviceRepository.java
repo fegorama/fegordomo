@@ -8,6 +8,6 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface DeviceRepository extends  JpaRepository<Device, Long> {
     
-    @Query("SELECT new com.fegorsoft.fegordomo.manager.dto.DeviceDTO(d.id, d.name, d.type, d.ip, d.enable) FROM Device d")
+    @Query("SELECT new com.fegorsoft.fegordomo.manager.dto.DeviceDTO(d.id, d.name, d.type, d.description, d.enable) FROM Device d")
     List<DeviceDTO> findAlltoDTO();
 }

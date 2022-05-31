@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class InitialConfiguration {
-    
+    /*
     @Autowired
     private MQTTService mqttService;
     
@@ -18,5 +18,5 @@ public class InitialConfiguration {
         mqttService.connect();
 
     }
-    
+    */
 }

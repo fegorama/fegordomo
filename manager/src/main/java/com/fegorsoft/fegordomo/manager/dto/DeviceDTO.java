@@ -1,31 +1,21 @@
 package com.fegorsoft.fegordomo.manager.dto;
 
-import java.net.InetAddress;
-
 public class DeviceDTO {
     private long id;
     private String name;
-    private String type; // ESP32, ArduinoUNO,...
-    private String ip; // IP or address
+    private String type;
+    private String description;
     private boolean enable; // If is enable
 
     public DeviceDTO() {
 
     }
     
-    public DeviceDTO(long id, String name, String type, String ip, boolean enable) {
+    public DeviceDTO(long id, String name, String type, String description, boolean enable) {
         this.id = id;
         this.name = name;
         this.type = type;
-        this.ip = ip;
-        this.enable = enable;
-    }
-
-    public DeviceDTO(long id, String name, String type, InetAddress ip, boolean enable) {
-        this.id = id;
-        this.name = name;
-        this.type = type;
-        this.ip = ip.getHostAddress();
+        this.description = description;
         this.enable = enable;
     }
 
@@ -53,12 +43,12 @@ public class DeviceDTO {
         this.type = type;
     }
 
-    public String getIp() {
-        return ip;
+    public String getDescription() {
+        return description;
     }
 
-    public void setIp(String ip) {
-        this.ip = ip;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public boolean isEnable() {

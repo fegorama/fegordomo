@@ -14,8 +14,8 @@ import javax.validation.constraints.NotBlank;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-@Table(name = "gpios")
-public class GPIO implements PeripheralInterface {
+@Table(name = "operations")
+public class Operation implements PeripheralInterface {
     enum modes {
         INPUT, OUTPUT
     }
@@ -26,8 +26,8 @@ public class GPIO implements PeripheralInterface {
     private long id;
 
     @NotBlank
-    @Column(name = "gpio")
-    private int gpio;
+    @Column(name = "data")
+    private String data;
 
     @NotBlank
     @Column(name = "mode")
@@ -67,12 +67,12 @@ public class GPIO implements PeripheralInterface {
         this.id = id;
     }
 
-    public int getGpio() {
-        return gpio;
+    public String getData() {
+        return data;
     }
 
-    public void setGpio(int gpio) {
-        this.gpio = gpio;
+    public void setData(String data) {
+        this.data = data;
     }
 
     public int getMode() {

@@ -1,49 +1,41 @@
 package com.fegorsoft.fegordomo.manager.dto;
 
-public class ScheduleGPIO {
-    private Long gpioId;
-    private int gpio;
-    private String ip;
+public class ScheduleOperation {
+    private Long operationId;
+    private String deviceName;
+    private String data;
     private String cronTriggerOn;
     private String cronTriggerOff;
     private boolean active;
-    private String deviceName;
 
-    public ScheduleGPIO() {
+    public ScheduleOperation() {
     }
 
-    public ScheduleGPIO(Long gpioId, int gpio, String ip, String cronTriggerOn, String cronTriggerOff,
+    public ScheduleOperation(Long operationId, String deviceName, String data, String cronTriggerOn,
+            String cronTriggerOff,
             boolean active) {
-        this.gpioId = gpioId;
-        this.gpio = gpio;
-        this.ip = ip;
+        this.operationId = operationId;
+        this.deviceName = deviceName;
+        this.data = data;
         this.cronTriggerOn = cronTriggerOn;
         this.cronTriggerOff = cronTriggerOff;
         this.active = active;
     }
 
-    public Long getGpioId() {
-        return gpioId;
+    public Long getOperationId() {
+        return operationId;
     }
 
-    public void setGpioId(Long gpioId) {
-        this.gpioId = gpioId;
+    public void setOperationId(Long operationId) {
+        this.operationId = operationId;
     }
 
-    public int getGpio() {
-        return gpio;
+    public String getData() {
+        return data;
     }
 
-    public void setGpio(int gpio) {
-        this.gpio = gpio;
-    }
-
-    public String getIp() {
-        return ip;
-    }
-
-    public void setIp(String ip) {
-        this.ip = ip;
+    public void setData(String data) {
+        this.data = data;
     }
 
     public String getCronTriggerOn() {
