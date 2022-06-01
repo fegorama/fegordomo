@@ -1,41 +1,58 @@
 package com.fegorsoft.fegordomo.manager.dto;
 
 public class OperationMessageDTO {
-    private String gpio; // gpio (1 to 15)
-    private String mode; // input or output (1 or 2)
-    private String action; // hight or low (1 or 0)
-
-    public OperationMessageDTO() {
+    private long deviceId;
+    private String deviceName;
+    private long operationId;
+    private String data;
+    private long timestamp;
+    
+    public OperationMessageDTO(long deviceId, String deviceName, long operationId, String data, long timestamp) {
+        this.deviceId = deviceId;
+        this.deviceName = deviceName;
+        this.operationId = operationId;
+        this.data = data;
+        this.timestamp = timestamp;
     }
 
-    public OperationMessageDTO(String gpio, String mode, String action) {
-        this.gpio = gpio;
-        this.mode = mode;
-        this.action = action;
+    public long getDeviceId() {
+        return deviceId;
     }
 
-    public String getGpio() {
-        return gpio;
+    public void setDeviceId(long deviceId) {
+        this.deviceId = deviceId;
     }
 
-    public void setGpio(String gpio) {
-        this.gpio = gpio;
+    public String getDeviceName() {
+        return deviceName;
     }
 
-    public String getMode() {
-        return mode;
+    public void setDeviceName(String deviceName) {
+        this.deviceName = deviceName;
     }
 
-    public void setMode(String mode) {
-        this.mode = mode;
+    public long getOperationId() {
+        return operationId;
     }
 
-    public String getAction() {
-        return action;
+    public void setOperationId(long operationId) {
+        this.operationId = operationId;
     }
 
-    public void setAction(String action) {
-        this.action = action;
+    public String getData() {
+        return data;
+    }
+
+    public void setData(String data) {
+        this.data = data;
+    }
+
+    public long getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(long timestamp) {
+        this.timestamp = timestamp;
     }
 
 }

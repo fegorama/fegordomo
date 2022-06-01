@@ -8,9 +8,10 @@ import java.util.Set;
 import javax.validation.Valid;
 
 import com.fegorsoft.fegordomo.manager.dto.JobDTO;
-import com.fegorsoft.fegordomo.manager.dto.ScheduleOperation;
+import com.fegorsoft.fegordomo.manager.dto.ScheduleOperationDTO;
 import com.fegorsoft.fegordomo.manager.dto.TriggerDTO;
 import com.fegorsoft.fegordomo.manager.job.OperationJob;
+import com.fegorsoft.fegordomo.manager.job.OperationScheduleService;
 import com.fegorsoft.fegordomo.manager.payload.ScheduleOperationResponse;
 
 import org.quartz.CronScheduleBuilder;
@@ -52,8 +53,9 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @Tag(name = "Scheduler", description = "API for Operation's scheduler")
 public class ScheduleOperationController {
     private static final Logger logger = LoggerFactory.getLogger(ScheduleOperationController.class);
-    private static final String OPERATION_GROUP_JOB = "operation-jobs";
-    private static final String OPERATION_GROUP_TRIGGER = "operation-triggers";
+
+    @Autowired
+    private OperationScheduleService operationScheduleService;
 
     @Autowired
     private Scheduler scheduler;
@@ -64,7 +66,7 @@ public class ScheduleOperationController {
             @ApiResponse(responseCode = "404", description = "Bad request", content = @Content) })
     @PostMapping(path = "/build")
     public ScheduleOperationResponse build(
-            @Parameter(description = "Schedule Operation") @RequestBody @Valid ScheduleOperation scheduleOperation) {
+            @Parameter(description = "Schedule Operation") @RequestBody @Valid ScheduleOperationDTO scheduleOperation) {
 
         return buildJob(scheduleOperation);
     }
@@ -77,7 +79,7 @@ public class ScheduleOperationController {
     public ResponseEntity<String> delete(@Parameter(description = "Operation ID") long operationId) {
 
         try {
-            if (scheduler.deleteJob(new JobKey("operationId-" + operationId, OPERATION_GROUP_JOB))) {
+            if (scheduler.deleteJob(new JobKey("operationId-" + operationId, operationScheduleService.OPERATION_GROUP_JOB))) {
                 return new ResponseEntity<>(HttpStatus.OK);
 
             } else {
@@ -126,21 +128,30 @@ public class ScheduleOperationController {
         return jobsDTO;
     }
 
-    private ScheduleOperationResponse buildJob(ScheduleOperation scheduleOperation) {
+    private ScheduleOperationResponse buildJob(ScheduleOperationDTO scheduleOperation) {
         try {
-            JobDetail jobDetail = buildJobDetail(scheduleOperation);
+            JobDetail jobDetail = operationScheduleService.buildJobDetail(scheduleOperation);
+            logger.info("Job detail description: {}", jobDetail.getDescription());
 
             Set<CronTrigger> cronTriggers = new HashSet<>();
-            cronTriggers.add(buildJobTrigger(jobDetail, (byte) 1));
-            cronTriggers.add(buildJobTrigger(jobDetail, (byte) 0));
+            CronTrigger cronTrigger = operationScheduleService.buildJobTrigger(jobDetail);
+            cronTriggers.add(cronTrigger);
+            logger.info("Trigger Description: {}", cronTrigger.getDescription());
+
+//            CronTrigger cronTrigger0 = buildJobTrigger(jobDetail, (byte) 0);
+//            cronTriggers.add(cronTrigger0);
+//            logger.info("Trigger Next Fire Time: {}", cronTrigger0.getNextFireTime());
+
 
             if (scheduleOperation.isActive()) {
+                logger.info("Scheduled is active");
                 scheduler.scheduleJob(jobDetail, cronTriggers, true);
 
             } else {
+                logger.info("Scheduled not is active");
                 List<Trigger> triggers = new ArrayList<>(cronTriggers);
                 scheduler.unscheduleJob(triggers.get(0).getKey());
-                scheduler.unscheduleJob(triggers.get(1).getKey());
+//                scheduler.unscheduleJob(triggers.get(1).getKey());
             }
 
             return new ScheduleOperationResponse(true, jobDetail.getKey().getName(), jobDetail.getKey().getGroup(),
@@ -151,36 +162,6 @@ public class ScheduleOperationController {
 
             return new ScheduleOperationResponse(false, "Error scheduling Operation. Please try later!");
         }
-    }
-
-    private JobDetail buildJobDetail(ScheduleOperation scheduleOperation) {
-        JobDataMap jobDataMap = new JobDataMap();
-
-        jobDataMap.put("operationId", scheduleOperation.getOperationId());
-        jobDataMap.put("deviceName", scheduleOperation.getDeviceName());
-        jobDataMap.put("data", scheduleOperation.getData());
-        jobDataMap.put("cronTriggerOn", scheduleOperation.getCronTriggerOn());
-        jobDataMap.put("cronTriggerOff", scheduleOperation.getCronTriggerOff());
-        jobDataMap.put("deviceName", scheduleOperation.getDeviceName());
-
-        return JobBuilder.newJob(OperationJob.class).withIdentity("operationId-" + scheduleOperation.getOperationId(), OPERATION_GROUP_JOB)
-                .withDescription("Operation Job").usingJobData(jobDataMap).storeDurably().build();
-    }
-
-    private CronTrigger buildJobTrigger(JobDetail jobDetail, byte mode) {
-        JobDataMap jobDataMap = jobDetail.getJobDataMap();
-        String cronTrigger;
-
-        if (mode != 0) {
-            cronTrigger = jobDataMap.getString("cronTriggerOn");
-        } else {
-            cronTrigger = jobDataMap.getString("cronTriggerOff");
-        }
-
-        return TriggerBuilder.newTrigger().forJob(jobDetail)
-                .withIdentity(jobDetail.getKey().getName() + "-" + (mode != 0 ? "on" : "off"), OPERATION_GROUP_TRIGGER)
-                .withDescription("Operation Trigger for mode " + (mode != 0 ? "on" : "off"))
-                .withSchedule(CronScheduleBuilder.cronSchedule(cronTrigger)).build();
     }
 
 }

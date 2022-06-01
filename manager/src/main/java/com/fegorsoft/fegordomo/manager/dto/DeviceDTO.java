@@ -5,7 +5,8 @@ public class DeviceDTO {
     private String name;
     private String type;
     private String description;
-    private boolean enable; // If is enable
+    private boolean enable;
+    private long deviceGroupId;
 
     public DeviceDTO() {
 
@@ -57,6 +58,14 @@ public class DeviceDTO {
 
     public void setEnable(boolean enable) {
         this.enable = enable;
+    }
+
+    public long getDeviceGroupId() {
+        return deviceGroupId;
+    }
+
+    public void setDeviceGroupId(long deviceGroupId) {
+        this.deviceGroupId = deviceGroupId;
     }
 
 }

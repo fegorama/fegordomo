@@ -1,12 +1,13 @@
 package com.fegorsoft.fegordomo.manager.controller;
 
-import java.net.InetAddress;
-
 import javax.validation.Valid;
 
 import com.fegorsoft.fegordomo.manager.dto.DeviceDTO;
+import com.fegorsoft.fegordomo.manager.exception.DeviceGroupNotFoundException;
 import com.fegorsoft.fegordomo.manager.exception.DeviceNotFoundException;
 import com.fegorsoft.fegordomo.manager.model.Device;
+import com.fegorsoft.fegordomo.manager.model.DeviceGroup;
+import com.fegorsoft.fegordomo.manager.repository.DeviceGroupRepository;
 import com.fegorsoft.fegordomo.manager.repository.DeviceRepository;
 
 import org.slf4j.Logger;
@@ -40,6 +41,9 @@ public class DevicesController {
     @Autowired
     private DeviceRepository deviceRepository;
 
+    @Autowired
+    private DeviceGroupRepository deviceGroupRepository;
+    
     @Operation(summary = "Create a device")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "device created", content = {
@@ -47,16 +51,27 @@ public class DevicesController {
             @ApiResponse(responseCode = "404", description = "Bad request", content = @Content) })
     @PostMapping(path = "/add")
     public ResponseEntity<Device> add(
-            @Parameter(description = "Name of device") @RequestBody @Valid DeviceDTO deviceDTO) {
+            @Parameter(description = "Name of device") @RequestBody @Valid DeviceDTO deviceDTO) throws DeviceGroupNotFoundException {
 
         Device device = new Device();
+        DeviceGroup deviceGroup = deviceGroupRepository.findById(deviceDTO.getDeviceGroupId())
+        .orElseThrow(DeviceGroupNotFoundException::new);
+
+        if (log.isDebugEnabled()) {
+            log.debug("Device group: {}", deviceGroup.toString());
+        }
 
         try {
             device.setName(deviceDTO.getName());
             device.setType(deviceDTO.getType());
             device.setDescription(deviceDTO.getDescription());
             device.setEnable(deviceDTO.isEnable());
+            device.setDeviceGroup(deviceGroup);
             deviceRepository.save(device);
+
+            if (log.isDebugEnabled()) {
+                log.debug("New Device: {}", device.toString());
+            }
 
         } catch (Exception e) {
             log.error("Error add device: {}", e.getMessage());
@@ -74,15 +89,27 @@ public class DevicesController {
     @PutMapping(path = "/{id}")
     public ResponseEntity<Device> update(
             @Parameter(description = "Name of device") @RequestBody @Valid DeviceDTO deviceDTO)
-            throws DeviceNotFoundException {
+            throws DeviceNotFoundException, DeviceGroupNotFoundException {
 
         Device device = deviceRepository.findById(deviceDTO.getId()).orElseThrow(DeviceNotFoundException::new);
+
+        if (log.isDebugEnabled()) {
+            log.debug("Device: {}", device.toString());
+        }
+
+        DeviceGroup deviceGroup = deviceGroupRepository.findById(deviceDTO.getDeviceGroupId())
+        .orElseThrow(DeviceGroupNotFoundException::new);
+
+        if (log.isDebugEnabled()) {
+            log.debug("Device group: {}", deviceGroup.toString());
+        }
 
         try {
             device.setName(deviceDTO.getName());
             device.setType(deviceDTO.getType());
             device.setDescription(deviceDTO.getDescription());
             device.setEnable(deviceDTO.isEnable());
+            device.setDeviceGroup(deviceGroup);
             deviceRepository.save(device);
 
         } catch (Exception e) {

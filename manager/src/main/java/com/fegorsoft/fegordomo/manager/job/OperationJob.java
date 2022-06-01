@@ -28,37 +28,34 @@ public class OperationJob extends QuartzJobBean {
         log.info("Executing Job with key {}", jobExecutionContext.getJobDetail().getKey());
 
         JobDataMap jobDataMap = jobExecutionContext.getMergedJobDataMap();
-        int data = (int) jobDataMap.get("data");
-     //   String deviceName = (String) jobDataMap.get("deviceName");
-
-        // TODO Eliminar esta información ya que no es necesaria ahora mismo
-        String cronTriggerOn = (String) jobDataMap.get("cronTriggerOn");
-        String crontriggerOff = (String) jobDataMap.get("crontriggerOff");
+        String deviceGroupName = (String) jobDataMap.get("deviceGroupName");
+        long deviceId = (long) jobDataMap.get("deviceId");
         String deviceName = (String) jobDataMap.get("deviceName");
+        long operationId = (long) jobDataMap.get("operationId");
+        String data = (String) jobDataMap.get("data");
 
         Trigger trigger = jobExecutionContext.getTrigger();
 
         log.info("Trigger: {}", trigger.getDescription());
 
         // 1 = ON, 0 = OFF
-        int mode = trigger.getKey().getName().indexOf("-on") != -1 ? 1 : 0;
+       //********  int mode = trigger.getKey().getName().indexOf("-on") != -1 ? 1 : 0;
 
         try {
-            // sendMessageToDevice(ip, gpio, mode);
-            sendMessageToMqtt(deviceName, data, mode);
+            sendMessageToMqtt(deviceId, deviceName, operationId, data, deviceGroupName);
 
         } catch (IOException ioe) {
             log.error("Error sending message to device!");
         }
     }
 
-    private void sendMessageToMqtt(String deviceName, int gpio, int mode) throws IOException {
+    private void sendMessageToMqtt(long deviceId, String deviceName, long operationId, String data, String deviceGroupName) throws IOException {
 
         ObjectMapper objectMapper = new ObjectMapper();
-        OperationMessageDTO message = new OperationMessageDTO(String.valueOf(gpio), "2", String.valueOf(mode));
+        OperationMessageDTO message = new OperationMessageDTO(deviceId, deviceName, operationId, data, System.currentTimeMillis());
 
         String jsonInputString = objectMapper.writeValueAsString(message);
-        mqttService.pub(jsonInputString, deviceName);
+        mqttService.pub(jsonInputString, deviceGroupName);
 
     }
 }

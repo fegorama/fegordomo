@@ -8,6 +8,8 @@ import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.FetchType;
 import javax.persistence.CascadeType;
@@ -41,10 +43,14 @@ public class Device {
     @Column(name = "enable", nullable = false)
     boolean enable;
 
-    @RestResource(path = "deviceGPIO", rel="gpio")
+    @RestResource(path = "deviceOperation", rel = "operation")
     @OneToMany(mappedBy = "device", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    List<Operation> gpios;
+    List<Operation> operations;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "devicegroup_id", referencedColumnName = "id")
+    DeviceGroup deviceGroup;
+    
     public long getId() {
         return id;
     }
@@ -69,12 +75,12 @@ public class Device {
         this.type = type;
     }
 
-    public List<Operation> getGpios() {
-        return gpios;
+    public List<Operation> getOperations() {
+        return operations;
     }
 
-    public void setGpios(List<Operation> gpios) {
-        this.gpios = gpios;
+    public void setOperations(List<Operation> operations) {
+        this.operations = operations;
     }
 
     public String getDescription() {
@@ -93,4 +99,30 @@ public class Device {
         this.enable = enable;
     }
 
+    public DeviceGroup getDeviceGroup() {
+        return deviceGroup;
+    }
+
+    public void setDeviceGroup(DeviceGroup deviceGroup) {
+        this.deviceGroup = deviceGroup;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("[");
+        sb.append("id: ");
+        sb.append(id);
+        sb.append(", name: ");
+        sb.append(name);
+        sb.append(", type: ");
+        sb.append(type);
+        sb.append(", description. ");
+        sb.append(description);
+        sb.append(", enable: ");
+        sb.append(enable);
+        sb.append("]");
+
+        return sb.toString();
+    }
 }

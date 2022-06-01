@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.net.UnknownHostException;
 
 import com.fegorsoft.fegordomo.manager.controller.ScheduleOperationController;
-import com.fegorsoft.fegordomo.manager.dto.ScheduleOperation;
+import com.fegorsoft.fegordomo.manager.dto.ScheduleOperationDTO;
 import com.fegorsoft.fegordomo.manager.payload.ScheduleOperationResponse;
 
 import org.junit.jupiter.api.Test;
@@ -20,12 +20,12 @@ class ManagerApplicationTests {
 
 	@Test
 	void addCronOperation() throws UnknownHostException {
-		ScheduleOperation scheduleOperation = new ScheduleOperation();
+		ScheduleOperationDTO scheduleOperation = new ScheduleOperationDTO();
 		scheduleOperation.setOperationId((long) 1);
 		scheduleOperation.setDeviceName("Depuradora");
 		scheduleOperation.setData("Test");
 		scheduleOperation.setCronTriggerOn("0/5 0 0 ? * * *");
-		scheduleOperation.setCronTriggerOff("0/6 0 0 ? * * *");
+		scheduleOperation.setCronTriggerOff("0/15 0 0 ? * * *");
 
 		ScheduleOperationController s = new ScheduleOperationController();
 		ScheduleOperationResponse res = s.build(scheduleOperation);

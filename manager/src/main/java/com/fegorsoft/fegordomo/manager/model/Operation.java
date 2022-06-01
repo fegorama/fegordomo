@@ -116,4 +116,15 @@ public class Operation implements PeripheralInterface {
         this.device = device;
     }
 
+    @Override
+    public String toString() {
+        StringBuffer sb = new StringBuffer();
+        sb.append("[");
+        sb.append("id: "); sb.append(id);
+        sb.append(", data: "); sb.append(data);
+        sb.append(", status: "); sb.append(status);
+        sb.append(", device: "); sb.append(device);
+        sb.append("]");
+        return sb.toString();
+    }
 }

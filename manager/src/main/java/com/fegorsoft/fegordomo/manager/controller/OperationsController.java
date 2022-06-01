@@ -4,9 +4,10 @@ import javax.validation.Valid;
 
 import com.fegorsoft.fegordomo.manager.dto.OperationDTO;
 import com.fegorsoft.fegordomo.manager.dto.OperationMessageDTO;
-import com.fegorsoft.fegordomo.manager.dto.ScheduleOperation;
+import com.fegorsoft.fegordomo.manager.dto.ScheduleOperationDTO;
 import com.fegorsoft.fegordomo.manager.exception.DeviceNotFoundException;
 import com.fegorsoft.fegordomo.manager.exception.OperationNotFoundException;
+import com.fegorsoft.fegordomo.manager.job.OperationScheduleService;
 import com.fegorsoft.fegordomo.manager.model.Device;
 import com.fegorsoft.fegordomo.manager.model.Operation;
 import com.fegorsoft.fegordomo.manager.repository.DeviceRepository;
@@ -17,6 +18,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -46,6 +48,9 @@ public class OperationsController {
         private DeviceRepository deviceRepository;
 
         @Autowired
+        private OperationScheduleService operationScheduleService;
+
+        @Autowired
         private ScheduleOperationController scheduleOperationControllertionRepository;
 
         @io.swagger.v3.oas.annotations.Operation(summary = "Simulation of send message to device")
@@ -66,12 +71,17 @@ public class OperationsController {
                         @Content(mediaType = "application/json", schema = @Schema(implementation = Operation.class)) }),
                         @ApiResponse(responseCode = "404", description = "Bad request", content = @Content) })
         @PostMapping(path = "/add")
-        public ResponseEntity<Operation> add(@Parameter(description = "Name of Operation") @RequestBody @Valid OperationDTO operationDTO)
+        public ResponseEntity<Operation> add(
+                        @Parameter(description = "Name of Operation") @RequestBody @Valid OperationDTO operationDTO)
                         throws DeviceNotFoundException {
 
                 Operation operation = new Operation();
                 Device device = deviceRepository.findById(operationDTO.getDeviceId())
                                 .orElseThrow(DeviceNotFoundException::new);
+
+                if (log.isDebugEnabled()) {
+                        log.debug("Device: {}", device.toString());
+                }
 
                 try {
                         operation.setMode(operationDTO.getMode());
@@ -81,10 +91,22 @@ public class OperationsController {
                         operation.setDevice(device);
                         operationRepository.save(operation);
 
-                        ScheduleOperation scheduleOperation = new ScheduleOperation(operation.getId(), operation.getData(),
-                                        device.getDescription(), operation.getCronTriggerOn(),
+                        if (log.isDebugEnabled()) {
+                                log.debug("New Operation: {}", operation.toString());
+                        }
+
+                        ScheduleOperationDTO scheduleOperation = new ScheduleOperationDTO(
+                                        device.getDeviceGroup().getId(), device.getDeviceGroup().getName(),
+                                        operation.getId(),
+                                        device.getId(),
+                                        device.getName(),
+                                        operation.getData(),
+                                        operation.getCronTriggerOn(),
                                         operation.getCronTriggerOff(), true);
-                                        scheduleOperationControllertionRepository.build(scheduleOperation);
+                        scheduleOperationControllertionRepository.build(scheduleOperation);
+
+                        log.info("Add Schedule Operation: device id = device name = {}",
+                                        scheduleOperation.getDeviceId(), scheduleOperation.getDeviceName());
 
                 } catch (Exception e) {
                         log.error("Error add device: {}", e.getMessage());
@@ -99,17 +121,46 @@ public class OperationsController {
                         @Content(mediaType = "application/json", schema = @Schema(implementation = Operation.class)) }),
                         @ApiResponse(responseCode = "404", description = "Bad request", content = @Content) })
         @PutMapping(path = "/{id}")
-        public ResponseEntity<Operation> update(@Parameter(description = "Name of Operation") @RequestBody @Valid OperationDTO operationDTO)
-                        throws OperationNotFoundException {
+        public ResponseEntity<Operation> update(
+                        @Parameter(description = "Name of Operation") @RequestBody @Valid OperationDTO operationDTO)
+                        throws OperationNotFoundException, DeviceNotFoundException {
 
-                Operation operation = operationRepository.findById(operationDTO.getId()).orElseThrow(OperationNotFoundException::new);
+                Operation operation = operationRepository.findById(operationDTO.getId())
+                                .orElseThrow(OperationNotFoundException::new);
+
+                if (log.isDebugEnabled()) {
+                        log.debug("Operation: {}", operation.toString());
+                }
+
+                Device device = deviceRepository.findById(operationDTO.getDeviceId())
+                                .orElseThrow(DeviceNotFoundException::new);
+
+                if (log.isDebugEnabled()) {
+                        log.debug("Device: {}", device.toString());
+                }
 
                 try {
                         operation.setMode(operationDTO.getMode());
                         operation.setData(operationDTO.getData());
                         operation.setCronTriggerOn(operationDTO.getCronTriggerOn());
                         operation.setCronTriggerOff(operationDTO.getCronTriggerOff());
+                        operation.setDevice(device);
                         operationRepository.save(operation);
+
+                        log.info("Update operation: id = {}, data = {}", operation.getId(), operation.getData());
+
+                        ScheduleOperationDTO scheduleOperation = new ScheduleOperationDTO(
+                                        device.getDeviceGroup().getId(), device.getDeviceGroup().getName(),
+                                        operation.getId(),
+                                        device.getId(),
+                                        device.getName(),
+                                        operation.getData(),
+                                        operation.getCronTriggerOn(),
+                                        operation.getCronTriggerOff(), true);
+                        scheduleOperationControllertionRepository.build(scheduleOperation);
+
+                        log.info("Update Schedule Operation: device id = device name = {}",
+                                        scheduleOperation.getDeviceId(), scheduleOperation.getDeviceName());
 
                 } catch (Exception e) {
                         log.error("Error update device: {}", e.getMessage());
@@ -150,5 +201,29 @@ public class OperationsController {
         public @ResponseBody Iterable<OperationDTO> getByDeviceId(@PathVariable Long deviceId) {
 
                 return operationRepository.findByDeviceIdtoDTO(deviceId);
+        }
+
+        @io.swagger.v3.oas.annotations.Operation(summary = "Delete operation")
+        @ApiResponses(value = { @ApiResponse(responseCode = "201", description = "operation deleted", content = {
+                        @Content(mediaType = "application/json", schema = @Schema(implementation = Operation.class)) }),
+                        @ApiResponse(responseCode = "404", description = "Bad request", content = @Content) })
+        @DeleteMapping(path = "/{operationId}")
+        public ResponseEntity<String> delete(@Parameter(description = "Operation ID") long id) {
+
+                try {
+
+                        if (operationScheduleService.deleteOperationJob(id)) {
+                                deviceRepository.deleteById(id);
+                                return new ResponseEntity<>(HttpStatus.OK);
+
+                        } else {
+                                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+                        }
+
+                } catch (Exception e) {
+                        log.error("Error delete device group: {}", e.getMessage());
+                        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+                }
+
         }
 }

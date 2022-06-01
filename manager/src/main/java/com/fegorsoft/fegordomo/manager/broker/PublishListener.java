@@ -16,7 +16,7 @@ public class PublishListener extends AbstractInterceptHandler {
 
     @Override
     public void onPublish(InterceptPublishMessage message) {
-        log.info("Moquette MQTT broker message intercepted: topic: {}, content: {}", message.getTopicName(),
+        log.info("MQTT broker message intercepted: topic: {}, content: {}", message.getTopicName(),
                 new String(message.getPayload().array()));
     }
 }

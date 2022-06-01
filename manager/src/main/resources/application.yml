@@ -21,7 +21,7 @@ spring:
         show-sql: true
         open-in-view: false
         hibernate:
-            ddl-auto: create
+            ddl-auto: update
             naming: 
                 physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
         properties:
@@ -50,7 +50,7 @@ spring:
     mail:
         host: smtp.gmail.com
         port: 587
-        username: fegordomo@gmail.com
+        username: fegordomo@fegor.com
         password: ----password----
         properties:
             mail:
