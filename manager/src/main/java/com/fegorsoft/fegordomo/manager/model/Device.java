@@ -4,6 +4,11 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -43,10 +48,13 @@ public class Device {
     @Column(name = "enable", nullable = false)
     boolean enable;
 
+//    @JsonIgnore
+    @JsonManagedReference
     @RestResource(path = "deviceOperation", rel = "operation")
     @OneToMany(mappedBy = "device", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     List<Operation> operations;
 
+    @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "devicegroup_id", referencedColumnName = "id")
     DeviceGroup deviceGroup;
