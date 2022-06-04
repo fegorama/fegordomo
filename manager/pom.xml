@@ -135,6 +135,18 @@
       <artifactId>moquette-broker</artifactId>
       <version>0.15</version>
 	</dependency>
+	<!-- Cryptography -->
+	<dependency>
+    	<groupId>org.bouncycastle</groupId>
+    	<artifactId>bcpkix-jdk15on</artifactId>
+    	<version>1.70</version>
+	</dependency>
+	<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-text -->
+	<dependency>
+		<groupId>org.apache.commons</groupId>
+		<artifactId>commons-text</artifactId>
+		<version>1.9</version>
+	</dependency>
   </dependencies>
 
 	<build>

@@ -5,11 +5,14 @@ import javax.validation.Valid;
 import com.fegorsoft.fegordomo.manager.dto.OperationDTO;
 import com.fegorsoft.fegordomo.manager.dto.OperationMessageDTO;
 import com.fegorsoft.fegordomo.manager.dto.ScheduleOperationDTO;
+import com.fegorsoft.fegordomo.manager.exception.DeviceGroupNotFoundException;
 import com.fegorsoft.fegordomo.manager.exception.DeviceNotFoundException;
 import com.fegorsoft.fegordomo.manager.exception.OperationNotFoundException;
 import com.fegorsoft.fegordomo.manager.job.OperationScheduleService;
 import com.fegorsoft.fegordomo.manager.model.Device;
+import com.fegorsoft.fegordomo.manager.model.DeviceGroup;
 import com.fegorsoft.fegordomo.manager.model.Operation;
+import com.fegorsoft.fegordomo.manager.repository.DeviceGroupRepository;
 import com.fegorsoft.fegordomo.manager.repository.DeviceRepository;
 import com.fegorsoft.fegordomo.manager.repository.OperationRepository;
 
@@ -48,6 +51,9 @@ public class OperationsController {
         private DeviceRepository deviceRepository;
 
         @Autowired
+        private DeviceGroupRepository deviceGroupRepository;
+
+        @Autowired
         private OperationScheduleService operationScheduleService;
 
         @Autowired
@@ -73,7 +79,7 @@ public class OperationsController {
         @PostMapping(path = "/add")
         public ResponseEntity<Operation> add(
                         @Parameter(description = "Name of Operation") @RequestBody @Valid OperationDTO operationDTO)
-                        throws DeviceNotFoundException {
+                        throws DeviceNotFoundException, DeviceGroupNotFoundException {
 
                 Operation operation = new Operation();
                 Device device = deviceRepository.findById(operationDTO.getDeviceId())
@@ -82,6 +88,11 @@ public class OperationsController {
                 if (log.isDebugEnabled()) {
                         log.debug("Device: {}", device.toString());
                 }
+
+                DeviceGroup deviceGroup = deviceGroupRepository.findById(device.getDeviceGroup().getId())
+                                .orElseThrow(DeviceGroupNotFoundException::new);
+
+                device.setDeviceGroup(deviceGroup);
 
                 try {
                         operation.setMode(operationDTO.getMode());
@@ -123,14 +134,15 @@ public class OperationsController {
         @PutMapping(path = "/{id}")
         public ResponseEntity<Operation> update(
                         @Parameter(description = "Name of Operation") @RequestBody @Valid OperationDTO operationDTO)
-                        throws OperationNotFoundException, DeviceNotFoundException {
-
+                        throws OperationNotFoundException, DeviceNotFoundException, DeviceGroupNotFoundException {
+log.info("******** operationDTO.getId = {}", operationDTO.getId());
                 Operation operation = operationRepository.findById(operationDTO.getId())
                                 .orElseThrow(OperationNotFoundException::new);
 
                 if (log.isDebugEnabled()) {
                         log.debug("Operation: {}", operation.toString());
                 }
+log.info("******** {}", operationDTO.getDeviceId());
 
                 Device device = deviceRepository.findById(operationDTO.getDeviceId())
                                 .orElseThrow(DeviceNotFoundException::new);
@@ -138,6 +150,13 @@ public class OperationsController {
                 if (log.isDebugEnabled()) {
                         log.debug("Device: {}", device.toString());
                 }
+                
+                operation.setDevice(device);
+
+                DeviceGroup deviceGroup = deviceGroupRepository.findById(device.getDeviceGroup().getId())
+                                .orElseThrow(DeviceGroupNotFoundException::new);
+
+                device.setDeviceGroup(deviceGroup);
 
                 try {
                         operation.setMode(operationDTO.getMode());

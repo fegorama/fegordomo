@@ -33,9 +33,9 @@ public class DeviceGroup {
     @Column(name = "name", nullable = false)
     private String name;
 
-//    @JsonIgnore
-    @JsonManagedReference
-    @RestResource(path = "group", rel = "device")
+    @JsonIgnore
+    //@JsonManagedReference
+    @RestResource(path = "deviceGroupDevices", rel = "device")
     @OneToMany(mappedBy = "deviceGroup", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     List<Device> devices;
 

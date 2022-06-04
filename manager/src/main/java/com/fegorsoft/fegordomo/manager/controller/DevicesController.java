@@ -1,5 +1,7 @@
 package com.fegorsoft.fegordomo.manager.controller;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import com.fegorsoft.fegordomo.manager.dto.DeviceDTO;
@@ -120,7 +122,7 @@ public class DevicesController {
         return new ResponseEntity<>(device, HttpStatus.CREATED);
     }
 
-    @Operation(summary = "Get a device by its id")
+    @Operation(summary = "Get a device by id")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Found the device", content = {
                     @Content(mediaType = "application/json", schema = @Schema(implementation = Device.class)) }),
@@ -138,7 +140,10 @@ public class DevicesController {
             @ApiResponse(responseCode = "400", description = "Invalid id supplied", content = @Content),
             @ApiResponse(responseCode = "404", description = "Devices not found", content = @Content) })
     @GetMapping("/all")
-    public @ResponseBody Iterable<DeviceDTO> getAll() {
-        return deviceRepository.findAlltoDTO();
+    // TODO quitar
+    //public @ResponseBody Iterable<DeviceDTO> getAll() {
+    //    return deviceRepository.findAlltoDTO();
+    public @ResponseBody List<Device> getAll() {
+        return deviceRepository.findAll();
     }
 }

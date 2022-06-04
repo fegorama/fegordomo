@@ -46,8 +46,8 @@ public class Operation implements PeripheralInterface {
     @Column(name = "cron_trigger_off")
     private String cronTriggerOff;
 
-//    @JsonIgnore
-    @JsonBackReference
+    @JsonIgnore
+    //@JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "device_id", referencedColumnName = "id")
     Device device;
@@ -126,7 +126,7 @@ public class Operation implements PeripheralInterface {
         sb.append("id: "); sb.append(id);
         sb.append(", data: "); sb.append(data);
         sb.append(", status: "); sb.append(status);
-        sb.append(", device: "); sb.append(device);
+        sb.append(", deviceId: "); sb.append(device.getId());
         sb.append("]");
         return sb.toString();
     }

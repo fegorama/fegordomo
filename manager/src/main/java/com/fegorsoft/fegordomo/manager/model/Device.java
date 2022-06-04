@@ -48,13 +48,14 @@ public class Device {
     @Column(name = "enable", nullable = false)
     boolean enable;
 
-//    @JsonIgnore
-    @JsonManagedReference
+    @JsonIgnore
+    //@JsonManagedReference
     @RestResource(path = "deviceOperation", rel = "operation")
     @OneToMany(mappedBy = "device", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     List<Operation> operations;
 
-    @JsonBackReference
+    @JsonIgnore
+    //@JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "devicegroup_id", referencedColumnName = "id")
     DeviceGroup deviceGroup;
@@ -129,6 +130,8 @@ public class Device {
         sb.append(description);
         sb.append(", enable: ");
         sb.append(enable);
+        sb.append(", deviceGroup: ");
+        sb.append(deviceGroup.getId());
         sb.append("]");
 
         return sb.toString();

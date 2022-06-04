@@ -84,10 +84,10 @@ public class DeviceGroupController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        return new ResponseEntity<>(deviceGroup, HttpStatus.CREATED);
+        return new ResponseEntity<DeviceGroup>(deviceGroup, HttpStatus.CREATED);
     }
 
-    @Operation(summary = "Get a device group by its id")
+    @Operation(summary = "Get a device group by id")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Found the device group", content = {
                     @Content(mediaType = "application/json", schema = @Schema(implementation = DeviceGroup.class)) }),
@@ -95,6 +95,7 @@ public class DeviceGroupController {
             @ApiResponse(responseCode = "404", description = "Device group not found", content = @Content) })
     @GetMapping("/{id}")
     public DeviceGroup findById(@PathVariable Long id) throws DeviceGroupNotFoundException {
+        //return deviceRepository.findByIdtoDTO(id);//.orElseThrow(DeviceGroupNotFoundException::new);
         return deviceRepository.findById(id).orElseThrow(DeviceGroupNotFoundException::new);
     }
 

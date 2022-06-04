@@ -12,4 +12,7 @@ public interface DeviceGroupRepository extends JpaRepository<DeviceGroup, Long> 
 
     @Query("SELECT new com.fegorsoft.fegordomo.manager.dto.DeviceGroupDTO(dg.id, dg.name) FROM Device dg")
     List<DeviceGroupDTO> findAlltoDTO();
+
+    @Query("SELECT new com.fegorsoft.fegordomo.manager.dto.DeviceGroupDTO(dg.id, dg.name) FROM Device dg WHERE dg.id = :deviceGroupId")
+    DeviceGroupDTO findByIdtoDTO(Long deviceGroupId);
 }

@@ -39,6 +39,7 @@ public class ManagerApplication {
 			mqttBroker.startServer(config);
 			Runtime.getRuntime().addShutdownHook(new Thread(mqttBroker::stopServer));
 
+			
 			// Local client for MQTT
 			mqttService.connect();
 		};
