@@ -16,10 +16,12 @@
 //#include "WebServer.h"
 #include "Config.h"
 #include "WebSecServer.h"
+#include "WebServer.h"
 #include "UtilsConnection.h"
 #include "MqttClient.h"
 
 WebSecServer *webSecServer = new WebSecServer();
+WebServer *webServer = new WebServer();
 MqttClient *mqttClient = new MqttClient();
 Config *config = new Config();
 
@@ -31,7 +33,8 @@ void setup() {
 	config->load();
 	ConnectWiFi_STA(true);
 
-//	webSecServer->initServer();
+	webSecServer->initServer();
+	webServer->initServer();
 
 	/* MQTT Client
 	 */

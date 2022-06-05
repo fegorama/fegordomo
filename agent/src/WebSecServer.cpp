@@ -32,22 +32,26 @@ void WebSecServer::initServer()
 {
     Serial.println("Creating certificate...");   
     cert = new SSLCert();
-
+    
     int createCertResult = createSelfSignedCert(
         *cert,
-        KEYSIZE_2048,
-        "CN=fegorsoft.com,O=fegordomo,C=ES",
-        "20190101000000",
+        KEYSIZE_1024,
+        "CN=esp32.fegor.local,O=fegordomo,C=ES",
+        "20220101000000",
         "20300101000000");
     
     if (createCertResult != 0) {
         Serial.printf("Error generating certificate");
         return;
     }
-
+    
     Serial.println("Certificate created with success");
 
     secureServer = new HTTPSServer(cert);
+
+    ResourceNode * nodeRoot = new ResourceNode("/", "GET", [](HTTPRequest * req, HTTPResponse * res){
+      res->println("Secure Hello World!!!");
+    });
 
     ResourceNode * resourceHealth = new ResourceNode("/health", "GET", [](HTTPRequest *req, HTTPResponse *res) {
         res->setHeader("Content-Type", "application/json");
@@ -89,11 +93,12 @@ void WebSecServer::initServer()
         res->println(bodyContent);        
     });
 
+    secureServer->registerNode(nodeRoot);
     secureServer->registerNode(resourceHealth);
     secureServer->registerNode(resourceGPIO);
 
-    secureServer->addMiddleware(&middlewareAuthentication);
-    secureServer->addMiddleware(&middlewareAuthorization);
+    //secureServer->addMiddleware(&middlewareAuthentication);
+    //secureServer->addMiddleware(&middlewareAuthorization);
 
     Serial.println("Starting server...");
     secureServer->start();
@@ -111,6 +116,7 @@ boolean WebSecServer::isRunning() {
 }
 
 void middlewareAuthentication(HTTPRequest * req, HTTPResponse * res, std::function<void()> next) {
+  Serial.println("Authentication");
   // Unset both headers to discard any value from the client
   // This prevents authentication bypass by a client that just sets X-USERNAME
   req->setHeader(HEADER_USERNAME, "");
@@ -140,14 +146,18 @@ void middlewareAuthentication(HTTPRequest * req, HTTPResponse * res, std::functi
 
     // If authentication was successful
     if (authValid) {
+      Serial.println("Authentication successful!");
+
       // set custom headers and delegate control
       req->setHeader(HEADER_USERNAME, reqUsername);
       req->setHeader(HEADER_GROUP, group);
-
+      
       // The user tried to authenticate and was successful
       // -> We proceed with this request.
       next();
     } else {
+      Serial.println("Authentication fail!");
+
       // Display error page
       res->setStatusCode(401);
       res->setStatusText("Unauthorized");
@@ -165,6 +175,8 @@ void middlewareAuthentication(HTTPRequest * req, HTTPResponse * res, std::functi
       // -> The code above did handle the request already.
     }
   } else {
+    Serial.println("Authentication not available");
+
     // No attempt to authenticate
     // -> Let the request pass through by calling next()
     next();
@@ -185,6 +197,8 @@ void middlewareAuthorization(HTTPRequest * req, HTTPResponse * res, std::functio
   // Check that only logged-in users may get to the internal area (All URLs starting with /internal)
   // Only a simple example, more complicated configuration is up to you.
   if (username == "" && req->getRequestString().substr(0,9) == "/internal") {
+    Serial.println("Autorization successful!");
+
     // Same as the deny-part in middlewareAuthentication()
     res->setStatusCode(401);
     res->setStatusText("Unauthorized");
