@@ -11,6 +11,7 @@
 #include <ESPAsyncWebServer.h>
 #include <ArduinoJson.h>
 #include <Stream.h>
+#include "esp_log.h"
 #include "APIRest.h"
 
 /**
@@ -52,6 +53,22 @@ void APIRest::health(AsyncWebServerRequest *request)
 {
     Serial.println("/health");
     request->send(200, "text/plain", "{\"health\" : \"OK\"}");
+}
+
+void APIRest::mainPage(AsyncWebServerRequest *request)
+{
+    const char *html = "<html>\n\
+    <head>\n\
+    <title>Admin</title>\n\
+    </head>\n\
+    <body>\n\
+    <p>Fegordomo administration</p>\n\
+    </body>\n\
+    </html>\n\
+    \n";
+
+    ESP_LOGI(TAG, "Get main page");
+    request->send(200, "text/html", html);
 }
 
 void APIRest::gpio(AsyncWebServerRequest *request, uint8_t *data, size_t len, size_t index, size_t total)

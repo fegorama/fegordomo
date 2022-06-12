@@ -20,6 +20,7 @@ WebServer::WebServer() : server(80) {}
 void WebServer::initServer()
 {
     server.on("/health", HTTP_GET, std::bind(&APIRest::health, apiRest, std::placeholders::_1));
+    server.on("/main", HTTP_GET, std::bind(&APIRest::mainPage, apiRest, std::placeholders::_1));
     server.on(
         "/gpio", HTTP_POST, [](AsyncWebServerRequest *request) {}, NULL,
         std::bind(&APIRest::gpio, apiRest,
