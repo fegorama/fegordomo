@@ -20,6 +20,11 @@
 #include "Config.h"
 #endif
 
+#define LOG_LOCAL_LEVEL ESP_LOG_INFO
+#include "esp_log.h"
+
+static const char* TAG = "connection";
+
 // TODO Cambiar y usar los datos de configuración
 const char *ssid = "SKYNET";
 const char *password = "Manual_de_BASIC2";
@@ -36,8 +41,7 @@ void ConnectWiFi_STA(bool useStaticIP = false)
 {
   delay(10);
   //WiFi.mode(WIFI_STA);
-  Serial.print("Connecting to ");
-  Serial.println(ssid);
+  ESP_LOGI(TAG, "Connecting to wifi in STA mode...");
   WiFi.begin(ssid, password);
 
   if (useStaticIP)
@@ -46,16 +50,10 @@ void ConnectWiFi_STA(bool useStaticIP = false)
   while (WiFi.status() != WL_CONNECTED)
   {
     delay(500);
-    Serial.print('.');
   }
 
   randomSeed(micros());
-  Serial.println("");
-  Serial.print("Iniciado STA:\t");
-  Serial.println(ssid);
-  Serial.print("IP address:\t");
-  Serial.println(WiFi.localIP());
-  // WiFi.printDiag(Serial);
+  ESP_LOGI(TAG, "Init STA: %s with IP address: %s", ssid, WiFi.localIP().toString());
 }
 
 /**
@@ -63,22 +61,17 @@ void ConnectWiFi_STA(bool useStaticIP = false)
  */
 void ConnectWiFi_AP(bool useStaticIP = false)
 {
-  Serial.println("");
+  ESP_LOGI(TAG, "Connecting to wifi in AP mode...");
   WiFi.mode(WIFI_AP);
 
   while (!WiFi.softAP(ssid, password))
   {
-    Serial.println(".");
-    delay(1000);
+    delay(500);
   }
 
   if (useStaticIP)
     WiFi.softAPConfig(ip, gateway, subnet);
 
-  Serial.println("");
-  Serial.print("Iniciado AP:\t");
-  Serial.println(ssid);
-  Serial.print("IP address:\t");
-  Serial.println(WiFi.softAPIP());
+  ESP_LOGI(TAG, "Init AP: %s with IP address: %s", ssid, WiFi.softAPIP().toString());
   // WiFi.printDiag(Serial);
 }
