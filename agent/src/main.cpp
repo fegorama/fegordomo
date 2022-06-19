@@ -21,7 +21,7 @@
 #define LOG_LOCAL_LEVEL ESP_LOG_INFO
 #include "esp_log.h"
 
-static const char* TAG = "main";
+static char *TAG = "FEGORDOMO";
 
 WebSecServer *webSecServer = new WebSecServer();
 WebServer *webServer = new WebServer();
@@ -38,7 +38,7 @@ void setup() {
 	Serial.begin(115200);
 	Serial.setTimeout(500);
 
-	// config->save();
+	//config->save();
 	ESP_LOGI(TAG, "Read config");
 	config->load();
 	ConnectWiFi_STA(true);
@@ -65,6 +65,6 @@ void loop() {
 
 	/* Web Secure Server
 	*/
-//	webSecServer->secureServer->loop();
+	webSecServer->secureServer->loop();
 	delay(1);
 }

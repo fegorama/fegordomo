@@ -23,16 +23,16 @@
 #define LOG_LOCAL_LEVEL ESP_LOG_INFO
 #include "esp_log.h"
 
-static const char* TAG = "connection";
-
 // TODO Cambiar y usar los datos de configuración
-const char *ssid = "SKYNET";
+const char *ssid = "ARPANET";
 const char *password = "Manual_de_BASIC2";
 const char *hostname = "ESP32_POOL";
 
-IPAddress ip(192, 168, 2, 200);
-IPAddress gateway(192, 168, 2, 1);
+IPAddress ip(192, 168, 1, 201);
+IPAddress gateway(192, 168, 1, 1);
 IPAddress subnet(255, 255, 255, 0);
+
+static char *TAG = "FEGORDOMO";
 
 /**
  * Conexión por Wifi en modo STA
@@ -61,7 +61,7 @@ void ConnectWiFi_STA(bool useStaticIP = false)
  */
 void ConnectWiFi_AP(bool useStaticIP = false)
 {
-  ESP_LOGI(TAG, "Connecting to wifi in AP mode...");
+  ESP_LOGI("Connecting to wifi in AP mode...");
   WiFi.mode(WIFI_AP);
 
   while (!WiFi.softAP(ssid, password))

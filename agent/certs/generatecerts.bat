@@ -1,5 +1,5 @@
 @ECHO OFF
-SET IP="192.168.2.2"
+SET IP="192.168.1.2"
 SET SUBJECT_CA="/C=ES/ST=Spain/L=Granada/O=Granada/OU=CA/CN=%IP%"
 SET SUBJECT_SERVER="/C=ES/ST=Spain/L=Granada/O=Granada/OU=Server/CN=%IP%"
 SET SUBJECT_CLIENT="/C=ES/ST=Spain/L=Granada/O=Granada/OU=Client/CN=%IP%"
