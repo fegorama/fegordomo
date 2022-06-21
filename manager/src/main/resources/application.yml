@@ -6,7 +6,6 @@ server:
     whitelabel:
       enabled: false
 
-
 spring:
     profiles:
         active: dev
