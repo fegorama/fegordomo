@@ -65,6 +65,6 @@ void loop() {
 
 	/* Web Secure Server
 	*/
-	webSecServer->secureServer->loop();
-	delay(1);
+	//webSecServer->secureServer->loop();
+	delay(10);
 }

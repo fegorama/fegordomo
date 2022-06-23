@@ -36,8 +36,8 @@ void WebSecServer::initServer()
     int createCertResult = createSelfSignedCert(
         *cert,
         KEYSIZE_1024,
-        "CN=esp32.fegor.local,O=fegordomo,C=ES",
-        "20220101000000",
+        "CN=fegor.local,O=fegordomo,C=ES",
+        "20190101000000",
         "20300101000000");
     
     if (createCertResult != 0) {
