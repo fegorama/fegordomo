@@ -1,5 +1,6 @@
 package com.fegorsoft.fegordomo.manager;
 
+import java.io.File;
 import java.util.Properties;
 
 import javax.annotation.PreDestroy;
@@ -13,9 +14,15 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.util.ResourceUtils;
 
 import io.moquette.broker.Server;
+import io.moquette.broker.config.FileResourceLoader;
+import io.moquette.broker.config.IConfig;
+import io.moquette.broker.config.IResourceLoader;
 import io.moquette.broker.config.MemoryConfig;
+import io.moquette.broker.config.ResourceLoaderConfig;
 
 @SpringBootApplication
 public class ManagerApplication {
@@ -33,8 +40,12 @@ public class ManagerApplication {
 	@Bean
 	CommandLineRunner commandLineRunner() {
 		return args -> {
-			Properties properties = new Properties();
-			MemoryConfig config = new MemoryConfig(properties);
+			File file = ResourceUtils.getFile("classpath:conf/moquette.conf");
+			log.info("Moquette Path Config: {}", file.getAbsolutePath());
+			IResourceLoader filesystemLoader = new FileResourceLoader(file);
+			final IConfig config = new ResourceLoaderConfig(filesystemLoader);
+			//Properties properties = new Properties();
+			//MemoryConfig config = new MemoryConfig(properties); 
 			mqttBroker = new Server();
 			mqttBroker.startServer(config);
 			Runtime.getRuntime().addShutdownHook(new Thread(mqttBroker::stopServer));
