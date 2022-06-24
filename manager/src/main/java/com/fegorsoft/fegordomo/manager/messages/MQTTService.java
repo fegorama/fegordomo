@@ -11,6 +11,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.Security;
 import java.security.UnrecoverableKeyException;
 import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
 
 import javax.crypto.NoSuchPaddingException;
 import javax.net.ssl.KeyManagerFactory;
@@ -68,15 +69,6 @@ public class MQTTService implements Message, MqttCallback {
 
     @Value("${mqtt.keepalive}")
     private int keepAlive;
-
-    @Value("${mqtt.ca-crt-file}")
-    private String caCertFile;
-
-    @Value("${mqtt.client-crt-file}")
-    private String clientCertFile;
-
-    @Value("${mqtt.client-key-file}")
-    private String clientKeyFile;
 
     @Value("${mqtt.jks-file}")
     private String jksFile;
@@ -139,75 +131,96 @@ public class MQTTService implements Message, MqttCallback {
 
     @Override
     public void connect() {
-        //CertsManager certsManager;
+        String tmpDir = System.getProperty("java.io.tmpdir");
+        MqttDefaultFilePersistence dataStore = new MqttDefaultFilePersistence(tmpDir);
 
-        try {
- //           certsManager = new CertsManager();
-
-            String tmpDir = System.getProperty("java.io.tmpdir");
-            MqttDefaultFilePersistence dataStore = new MqttDefaultFilePersistence(tmpDir);
-
-            if (client == null) {
+        if (client == null) {
+            try {
                 client = new MqttClient(url, defaultClientId + "_" + clientId, dataStore);
-                log.info("MQTT client: '{}' created for url: {}", defaultClientId + "_" + clientId, url);
-                client.setCallback(this);
+
+            } catch (MqttException e) {
+                e.printStackTrace();
             }
 
-            MqttConnectOptions options = new MqttConnectOptions();
-            options.setCleanSession(true);
-            options.setUserName(username);
-            options.setPassword(password.toCharArray());
-            options.setConnectionTimeout(timeout);
-            options.setKeepAliveInterval(keepAlive);
-            options.setMqttVersion(MqttConnectOptions.MQTT_VERSION_3_1);
-            options.setCleanSession(true);
+            log.info("MQTT client: '{}' created for url: {}", defaultClientId + "_" + clientId, url);
+            client.setCallback(this);
+        }
 
-            SSLSocketFactory ssf = configureSSLSocketFactory();
+        MqttConnectOptions options = new MqttConnectOptions();
+        options.setCleanSession(true);
+        options.setUserName(username);
+        options.setPassword(password.toCharArray());
+        options.setConnectionTimeout(timeout);
+        options.setKeepAliveInterval(keepAlive);
+        options.setCleanSession(true);
+
+        SSLSocketFactory ssf;
+        if (url.substring(0, 3).toLowerCase().equals("ssl")) {
+            options.setMqttVersion(MqttConnectOptions.MQTT_VERSION_3_1);
+
+            /* 
+            options.setHttpsHostnameVerificationEnabled(false);
+
+            System.setProperty("javax.net.ssl.trustStore", caCertsFile);
+            System.setProperty("java.net.ssl.trustStorePassword", "iottest");
+            System.setProperty("java.net.ssl.keyStorePassword", "iottest");
+            */
+
+            ssf = configureSSLSocketFactory();
             options.setSocketFactory(ssf);
 
-            if (!client.isConnected()) {
-                client.connect(options);
-                log.info("MQTT Connected: {}", options.toString());
-
-            } else {
-                client.disconnect();
-                log.info("MQTT disconnected. Connecting...");
-                client.connect(options);
-            }
-
-        } catch (MqttException me) {
-            log.error("MQTT error!: {}", me.getMessage());
-
-        } catch (Exception e) {
-            log.error("SSLSocket error!: {}", e.getMessage());
+        } else {
+            log.warn("Connection is not over SSL!");
         }
+
+        if (!client.isConnected()) {
+            try {
+                client.connect(options);
+            } catch (MqttException e) {
+                e.printStackTrace();
+            }
+            log.info("MQTT Connected: {}", options.toString());
+
+        } else {
+            try {
+                client.disconnect();
+            } catch (MqttException e) {
+                e.printStackTrace();
+            }
+            log.info("MQTT disconnected. Connecting...");
+            try {
+                client.connect(options);
+            } catch (MqttException e) {
+                e.printStackTrace();
+            }
+        }
+
+        // }
     }
 
     private SSLSocketFactory configureSSLSocketFactory() {
-
-        
         KeyStore ks;
         SSLContext sc;
         SSLSocketFactory ssf = null;
 
         try {
-            
-        ks = KeyStore.getInstance("JKS");
-        log.info("Loading JKS file: {}", jksFile);
-        InputStream jksInputStream = new FileInputStream(jksFile);
-        ks.load(jksInputStream, "iottest".toCharArray());
+            log.info("Loading JKS file: {}", jksFile);
 
-        KeyManagerFactory kmf = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
-        kmf.init(ks, "iottest".toCharArray());
-    
-        TrustManagerFactory tmf = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
-        tmf.init(ks);
-    
-        sc = SSLContext.getInstance("TLS");
-        TrustManager[] trustManagers = tmf.getTrustManagers();
-        sc.init(kmf.getKeyManagers(), trustManagers, null);
-    
-        ssf = sc.getSocketFactory();
+            InputStream jksInputStream = new FileInputStream(jksFile);
+            ks = KeyStore.getInstance("JKS");
+            ks.load(jksInputStream, "iottest".toCharArray());
+
+            KeyManagerFactory kmf = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
+            kmf.init(ks, "iottest".toCharArray());
+
+            TrustManagerFactory tmf = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
+            tmf.init(ks);
+
+            sc = SSLContext.getInstance("TLSv1.3");
+            TrustManager[] trustManagers = tmf.getTrustManagers();
+            sc.init(kmf.getKeyManagers(), trustManagers, null);
+
+            ssf = sc.getSocketFactory();
 
         } catch (KeyStoreException kse) {
             log.error("Key Store Error: {}", kse);
@@ -230,7 +243,7 @@ public class MQTTService implements Message, MqttCallback {
 
         return ssf;
     }
-    
+
     /*
      * Callback from setCallback
      */

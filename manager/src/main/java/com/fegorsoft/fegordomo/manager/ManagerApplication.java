@@ -34,6 +34,10 @@ public class ManagerApplication {
 	private Server mqttBroker;
 
 	public static void main(String[] args) {
+		log.info("Java Home: {}", System.getProperty("java.home"));
+		log.info("Java Version: {}", System.getProperty("java.version"));
+		log.info("Java Runtime Version: {}", System.getProperty("java.runtime.version"));
+
 		SpringApplication.run(ManagerApplication.class, args);
 	}
 

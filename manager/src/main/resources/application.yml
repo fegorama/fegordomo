@@ -65,18 +65,15 @@ springdoc:
     # http://localhost:8181/manager/swagger-ui/index.html?configUrl=/manager/api-docs/swagger-config#
 
 mqtt:
-    #url: tcp://localhost:8883
-    url: ssl://192.168.1.129:8883
+    #url: tcp://localhost:1883
+    url: ssl://des1.fegor.com:8883
     username: fegordomo
     password: fegordomo
     client-id: fdc
     default-topic: default
     timeout: 15
     keepalive: 30
-    ca-crt-file: C:/codigofuente/fegorsoft/fegordomo/manager/src/main/resources/certs/ca.crt
-    client-crt-file: C:/codigofuente/fegorsoft/fegordomo/manager/src/main/resources/certs/client.crt
-    client-key-file: C:/codigofuente/fegorsoft/fegordomo/manager/src/main/resources/certs/client.key
-    jks-file: C:\codigofuente\fegorsoft\fegordomo\manager\src\main\resources\certs\clientkeystore.jks
+    jks-file: C:\codigofuente\fegorsoft\fegordomo\manager\src\main\resources\certs\serverkeystore.jks
 
 fdwm:
     url: http://localhost:4200
