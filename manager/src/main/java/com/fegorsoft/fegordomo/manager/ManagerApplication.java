@@ -10,6 +10,7 @@ import com.fegorsoft.fegordomo.manager.messages.MQTTService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -28,6 +29,9 @@ import io.moquette.broker.config.ResourceLoaderConfig;
 public class ManagerApplication {
 	private static final Logger log = LoggerFactory.getLogger(ManagerApplication.class);
 
+ 	@Value("${moquette.config-file}")
+    private String moquetteConfigFile;
+
 	@Autowired
 	private MQTTService mqttService;
 
@@ -44,7 +48,8 @@ public class ManagerApplication {
 	@Bean
 	CommandLineRunner commandLineRunner() {
 		return args -> {
-			File file = ResourceUtils.getFile("classpath:conf/moquette.conf");
+			//File file = ResourceUtils.getFile("classpath:conf/moquette.conf");
+			File file = ResourceUtils.getFile(moquetteConfigFile);
 			log.info("Moquette Path Config: {}", file.getAbsolutePath());
 			IResourceLoader filesystemLoader = new FileResourceLoader(file);
 			final IConfig config = new ResourceLoaderConfig(filesystemLoader);

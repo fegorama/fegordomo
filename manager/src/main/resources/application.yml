@@ -64,6 +64,9 @@ springdoc:
     swagger-ui.path: /swagger-ui-custom.html
     # http://localhost:8181/manager/swagger-ui/index.html?configUrl=/manager/api-docs/swagger-config#
 
+moquette:
+    config-file: classpath:conf/moquette.conf
+
 mqtt:
     #url: tcp://localhost:1883
     url: ssl://brokerdes.fegor.com:8883
