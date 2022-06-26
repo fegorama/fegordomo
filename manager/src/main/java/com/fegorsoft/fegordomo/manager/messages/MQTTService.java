@@ -142,7 +142,7 @@ public class MQTTService implements Message, MqttCallback {
                 e.printStackTrace();
             }
 
-            log.info("MQTT client: '{}' created for url: {}", defaultClientId + "_" + clientId, url);
+            log.info("MQTT client: '{}_{}' created for url: {}", defaultClientId, clientId, url);
             client.setCallback(this);
         }
 
@@ -157,6 +157,7 @@ public class MQTTService implements Message, MqttCallback {
         SSLSocketFactory ssf;
         if (url.substring(0, 3).toLowerCase().equals("ssl")) {
             options.setMqttVersion(MqttConnectOptions.MQTT_VERSION_3_1);
+            options.setHttpsHostnameVerificationEnabled(false);
 
             /* 
             options.setHttpsHostnameVerificationEnabled(false);

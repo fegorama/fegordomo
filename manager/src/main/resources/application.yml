@@ -66,14 +66,14 @@ springdoc:
 
 mqtt:
     #url: tcp://localhost:1883
-    url: ssl://des1.fegor.com:8883
+    url: ssl://brokerdes.fegor.com:8883
     username: fegordomo
     password: fegordomo
     client-id: fdc
     default-topic: default
     timeout: 15
     keepalive: 30
-    jks-file: C:\codigofuente\fegorsoft\fegordomo\manager\src\main\resources\certs\serverkeystore.jks
+    jks-file: C:\codigofuente\fegorsoft\fegordomo\manager\src\main\resources\certs\fegordomo.jks
 
 fdwm:
     url: http://localhost:4200
