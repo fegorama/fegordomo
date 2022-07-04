@@ -13,18 +13,19 @@ MessageManager::MessageManager()
 
 void MessageManager::proccess(char *topic, byte *payload, unsigned int length)
 {
-  Serial.print("Message arrived [");
-  Serial.print(topic);
-  Serial.print("] ");
+  Serial.println("Message arrived:");
+  Serial.print("Topic: ");
+  Serial.println(topic);
 
-  if (length > MAX_LENGTH_DOC) 
+  if (length > MAX_LENGTH_DOC)
   {
     mqttClient->pub("Message too long!");
     return;
   }
 
-  StaticJsonDocument<200> doc;
-  //DeserializationError error = deserializeJson(doc, msg);
+  // taticJsonDocument<200> doc;
+  DynamicJsonDocument doc(1024);
+  // DeserializationError error = deserializeJson(doc, msg);
   DeserializationError error = deserializeJson(doc, payload, length);
 
   if (error)
@@ -33,11 +34,44 @@ void MessageManager::proccess(char *topic, byte *payload, unsigned int length)
     return;
   }
 
-  const byte gpio = doc["gpio"];
-  const byte mode = doc["mode"];
-  const byte action = doc["action"];
+  Serial.println("Deserialized message...");
 
-  pinMode(gpio, mode);
-  digitalWrite(gpio, action);
-  mqttClient->pub("Message proccessed successful");
+  const uint8_t mode = 2;
+  const char *device = doc["deviceName"];
+  const char *data = doc["data"];
+
+  Serial.print("Device: ");
+  Serial.println(device);
+  Serial.print("data: ");
+  Serial.println(data);
+
+  uint8_t pin = 0;
+  uint8_t action = 0;
+
+  this->findDeviceData(device, data, pin, action);
+  
+  if (pin != 0)
+  {
+    pinMode(pin, mode);
+    digitalWrite(pin, action);
+    mqttClient->pub("Message proccessed successful");
+  }
+  else
+  {
+    Serial.print("Device not found: ");
+    Serial.println(device);
+  }
+}
+
+void MessageManager::findDeviceData(const char *device, const char *data, uint8_t &pin, uint8_t &action)
+{
+  for (uint8_t i = 0; i < sizeof(message) / sizeof(Message); i++)
+  {
+    if (strcmp(message[i].device, device) && strcmp(message[i].data, data))
+    {
+      pin = message[i].pin;
+      action = message[i].action;
+      break;
+    }
+  }
 }

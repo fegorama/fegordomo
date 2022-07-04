@@ -20,8 +20,8 @@
 #include "Config.h"
 #endif
 
-#define LOG_LOCAL_LEVEL ESP_LOG_INFO
-#include "esp_log.h"
+//#define LOG_LOCAL_LEVEL ESP_LOG_INFO
+//#include "esp_log.h"
 
 // TODO Cambiar y usar los datos de configuración
 const char *ssid = "ARPANET";
@@ -32,8 +32,6 @@ IPAddress ip(192, 168, 1, 201);
 IPAddress gateway(192, 168, 1, 1);
 IPAddress subnet(255, 255, 255, 0);
 
-static char *TAG = "FEGORDOMO";
-
 /**
  * Conexión por Wifi en modo STA
  */
@@ -41,7 +39,8 @@ void ConnectWiFi_STA(bool useStaticIP = false)
 {
   delay(10);
   //WiFi.mode(WIFI_STA);
-  ESP_LOGI(TAG, "Connecting to wifi in STA mode...");
+  //ESP_LOGI(TAG, "Connecting to wifi in STA mode...");
+  Serial.println("Connecting to wifi in STA mode...");
   WiFi.begin(ssid, password);
 
   if (useStaticIP)
@@ -53,7 +52,8 @@ void ConnectWiFi_STA(bool useStaticIP = false)
   }
 
   randomSeed(micros());
-  ESP_LOGI(TAG, "Init STA: %s with IP address: %s", ssid, WiFi.localIP().toString());
+  //ESP_LOGI(TAG, "Init STA: %s with IP address: %s", ssid, WiFi.localIP().toString());
+  Serial.print("Init STA with IP address: "); Serial.println(WiFi.localIP().toString());
 }
 
 /**
@@ -61,7 +61,8 @@ void ConnectWiFi_STA(bool useStaticIP = false)
  */
 void ConnectWiFi_AP(bool useStaticIP = false)
 {
-  ESP_LOGI("Connecting to wifi in AP mode...");
+  //ESP_LOGI(TAG, "Connecting to wifi in AP mode...");
+  Serial.println("Connecting to wifi in AP mode...");
   WiFi.mode(WIFI_AP);
 
   while (!WiFi.softAP(ssid, password))
@@ -72,6 +73,7 @@ void ConnectWiFi_AP(bool useStaticIP = false)
   if (useStaticIP)
     WiFi.softAPConfig(ip, gateway, subnet);
 
-  ESP_LOGI(TAG, "Init AP: %s with IP address: %s", ssid, WiFi.softAPIP().toString());
+  //ESP_LOGI(TAG, "Init AP: %s with IP address: %s", ssid, WiFi.softAPIP().toString());
+  Serial.print("Init AP with IP address: "); Serial.println(WiFi.softAPIP().toString());
   // WiFi.printDiag(Serial);
 }

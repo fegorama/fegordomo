@@ -19,8 +19,8 @@ using namespace std;
 
 class MqttClient {
     private:
-        const char* mqtt_topic_receiver = "pool_inbound";
-        const char* mqtt_topic_publish = "pool_outbound";
+        const char* mqtt_topic_receiver = "garden";
+        const char* mqtt_topic_publish = "control";
         const char* mqtt_server = "192.168.1.3"; // "broker.mqtt-dashboard.com";
         /*
         const char *ca_cert = "-----BEGIN CERTIFICATE-----\n\
