@@ -12,10 +12,10 @@
 //#include <ESPAsyncWebServer.h>
 #include <SPIFFS.h>
 #include <ArduinoJson.h>
-#include "Config.h"
+#include "config.h"
 //#include "WebSecServer.h"
 #include "WebServer.h"
-#include "UtilsConnection.h"
+#include "NetConnection.h"
 #include "MqttClient.h"
 
 //#define LOG_LOCAL_LEVEL ESP_LOG_INFO
@@ -26,7 +26,7 @@
 //WebSecServer *webSecServer = new WebSecServer();
 WebServer *webServer = new WebServer();
 MqttClient *mqttClient = new MqttClient();
-Config *config = new Config();
+//Config *config = new Config();
 
 void setup() {
 	esp_log_level_set("*", ESP_LOG_INFO);
@@ -38,10 +38,15 @@ void setup() {
 	Serial.begin(115200);
 	Serial.setTimeout(500);
 
-	//config->save();
+	//Config::save();
+
+	NetConnection *nc = NetConnection::getInstance();
+	nc->connectWiFi_STA(true);
+
 //	ESP_LOGI(TAG, "Read config");
-	config->load();
-	ConnectWiFi_STA(true);
+	//Config::load();
+	//ConnectWiFi_STA(true);
+	//initWifi();
 
 //	ESP_LOGI(TAG, "WebServer init");
 	//webSecServer->initServer();
@@ -67,4 +72,9 @@ void loop() {
 	*/
 	//webSecServer->secureServer->loop();
 	delay(10);
+}
+
+void re_connect() 
+{
+
 }

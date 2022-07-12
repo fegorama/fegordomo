@@ -16,8 +16,8 @@ using namespace std;
 // TODO Cambiar por tabla guardada en flash
 typedef struct {
         uint8_t pin;
-        char* device;
-        char* data;
+        String device;
+        String data;
         uint8_t action;
 } Message;
 
@@ -30,7 +30,7 @@ const Message message[] = {
 
 class MessageManager {
     private:
-        void findDeviceData(const char* device, const char* data, uint8_t &pin, uint8_t &action);
+        void findDeviceData(const String device, const String data, uint8_t &pin, uint8_t &action);
 
     public:
         MessageManager();

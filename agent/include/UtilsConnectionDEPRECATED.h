@@ -13,5 +13,7 @@
 
 void ConnectWiFi_STA(bool);
 void ConnectWiFi_AP(bool);
+void initWifi();
+void disconnectWifi();
 
 #endif

@@ -10,26 +10,26 @@
  */
 #ifndef CONFIG_H
 #define CONFIG_H
+#include <ArduinoJson.h>
 
 using namespace std;
-class Config {
-    private:
-        const char* FILE_NAME = "/config.json" ;
+namespace Config {
+    extern const char* FILE_NAME;
 
-        string wifiSSID = "ARPANET";
-        string wifiPassword = "Manual_de_BASIC2";
-        string wifiHostname = "ESP32_POOL";
+    extern String wifiSSID;
+    extern String wifiPassword;
+    extern String wifiHostname;
 
-        char staticIP[16] = "192.168.1.201";
-        char staticGW[16] = "192.168.1.1";
-        char staticSN[16] = "255.255.255.0";
+    extern String staticIP;
+    extern String staticGW;
+    extern String staticSN;
 
-        string mqttUsername = "fegordomo";
-        string mqttPassword = "fegordomo";
+    extern String mqttUsername;
+    extern String mqttPassword;
 
-    public:
-        Config();
-        void load();
-        void save();
+    extern boolean setConfig(String strConfig);
+    extern DynamicJsonDocument getConfig();
+    extern String load();
+    extern void save();
 };
 #endif

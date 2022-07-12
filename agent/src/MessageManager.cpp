@@ -63,11 +63,11 @@ void MessageManager::proccess(char *topic, byte *payload, unsigned int length)
   }
 }
 
-void MessageManager::findDeviceData(const char *device, const char *data, uint8_t &pin, uint8_t &action)
+void MessageManager::findDeviceData(const String device, const String data, uint8_t &pin, uint8_t &action)
 {
   for (uint8_t i = 0; i < sizeof(message) / sizeof(Message); i++)
   {
-    if (strcmp(message[i].device, device) && strcmp(message[i].data, data))
+    if (strcmp(message[i].device.c_str(), device.c_str()) && strcmp(message[i].data.c_str(), data.c_str()))
     {
       pin = message[i].pin;
       action = message[i].action;
