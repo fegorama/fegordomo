@@ -27,6 +27,11 @@ void WebServer::initServer()
         std::bind(&APIRest::saveConfig, apiRest,
                   std::placeholders::_1, std::placeholders::_2, std::placeholders::_3,
                   std::placeholders::_4, std::placeholders::_5));
+server.on(
+        "/message", HTTP_POST, [](AsyncWebServerRequest *request) {}, NULL,
+        std::bind(&APIRest::message, apiRest,
+                  std::placeholders::_1, std::placeholders::_2, std::placeholders::_3,
+                  std::placeholders::_4, std::placeholders::_5));                  
     server.on(
         "/gpio", HTTP_POST, [](AsyncWebServerRequest *request) {}, NULL,
         std::bind(&APIRest::gpio, apiRest,

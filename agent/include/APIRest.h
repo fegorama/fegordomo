@@ -27,12 +27,14 @@ public:
     APIRest();
     void health(AsyncWebServerRequest *request);
     void saveConfig(AsyncWebServerRequest *request, uint8_t *data, size_t len, size_t index, size_t total);
+    void message(AsyncWebServerRequest *request, uint8_t *data, size_t len, size_t index, size_t total);
+    void notFound(AsyncWebServerRequest *request);
+
     void mainPage(AsyncWebServerRequest *request);
     void connectionConfig(AsyncWebServerRequest *request);
     void saveConnection(AsyncWebServerRequest *request);
     void messageManager(AsyncWebServerRequest *request);
     void gpio(AsyncWebServerRequest *request, uint8_t *data, size_t len, size_t index, size_t total);
-    void notFound(AsyncWebServerRequest *request);
 };
 
 #endif

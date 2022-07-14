@@ -34,7 +34,8 @@ class MessageManager {
 
     public:
         MessageManager();
-        void proccess(char *topic, byte *payload, unsigned int length);
+        void proccess(const char *topic, const byte *payload, const unsigned int length);
+        void execute(String device, String data);
 };
 
 #endif

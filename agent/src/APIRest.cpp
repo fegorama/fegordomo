@@ -15,6 +15,7 @@
 #include "APIRest.h"
 #include "Config.h"
 #include "NetConnection.h"
+#include "MessageManager.h"
 
 char buffer_page[4096];
 
@@ -310,6 +311,27 @@ void APIRest::saveConfig(AsyncWebServerRequest *request, uint8_t *data, size_t l
         request->send(400);
         return;
     }
+}
+
+void APIRest::message(AsyncWebServerRequest *request, uint8_t *data, size_t len, size_t index, size_t total)
+{
+    String bodyContent = getBodyContent(data, len);
+    StaticJsonDocument<1024> doc;
+    DeserializationError error = deserializeJson(doc, bodyContent);
+
+    if (error)
+    {
+        request->send(400);
+        return;
+    }
+
+    const char *deviceName = doc["deviceName"];
+    const char *action = doc["data"];
+
+    MessageManager* messageManager = new MessageManager();
+    messageManager->execute(deviceName, action);
+
+    request->send(200, "application/json", bodyContent);
 }
 
 void APIRest::gpio(AsyncWebServerRequest *request, uint8_t *data, size_t len, size_t index, size_t total)

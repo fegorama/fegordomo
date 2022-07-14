@@ -11,7 +11,7 @@ MessageManager::MessageManager()
 {
 }
 
-void MessageManager::proccess(char *topic, byte *payload, unsigned int length)
+void MessageManager::proccess(const char *topic, const byte *payload, const unsigned int length)
 {
   Serial.println("Message arrived:");
   Serial.print("Topic: ");
@@ -36,14 +36,21 @@ void MessageManager::proccess(char *topic, byte *payload, unsigned int length)
 
   Serial.println("Deserialized message...");
 
-  const uint8_t mode = 2;
   const char *device = doc["deviceName"];
   const char *data = doc["data"];
 
+  execute(device, data);
+}
+
+void MessageManager::execute(String device, String data)
+{
   Serial.print("Device: ");
   Serial.println(device);
   Serial.print("data: ");
   Serial.println(data);
+
+  // TODO Cambiar el funcionamiento del mode para que se reciba por mensaje y recibir datos
+  const uint8_t mode = 2;
 
   uint8_t pin = 0;
   uint8_t action = 0;
