@@ -26,8 +26,8 @@ namespace Config
 {
     const char *FILE_NAME = "/config.json";
 
-    String wifiSSID = "ARPANET";
-    String wifiPassword = "Manual_de_BASIC2";
+    String wifiSSID = "";
+    String wifiPassword = "";
     String wifiHostname = "ESP32_POOL";
 
     String staticIP = "192.168.1.201";
