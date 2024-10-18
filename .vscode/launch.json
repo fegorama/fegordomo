@@ -1,14 +1,33 @@
 {
-    "configurations": [
+  "configurations": [
+    {
+      "type": "java",
+      "name": "Spring Boot-ManagerApplication<manager>",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "console": "internalConsole",
+      "mainClass": "com.fegorsoft.fegordomo.manager.ManagerApplication",
+      "projectName": "manager",
+      "args": ""
+    },
+    {
+      "name": "C/C++ Runner: Debug Session",
+      "type": "cppdbg",
+      "request": "launch",
+      "args": [],
+      "stopAtEntry": false,
+      "externalConsole": true,
+      "cwd": "c:/codigofuente/fegorsoft/fegordomo/agent",
+      "program": "c:/codigofuente/fegorsoft/fegordomo/agent/build/Debug/outDebug",
+      "MIMode": "gdb",
+      "miDebuggerPath": "gdb",
+      "setupCommands": [
         {
-            "type": "java",
-            "name": "Spring Boot-ManagerApplication<manager>",
-            "request": "launch",
-            "cwd": "${workspaceFolder}",
-            "console": "internalConsole",
-            "mainClass": "com.fegorsoft.fegordomo.manager.ManagerApplication",
-            "projectName": "manager",
-            "args": ""
+          "description": "Enable pretty-printing for gdb",
+          "text": "-enable-pretty-printing",
+          "ignoreFailures": true
         }
-    ]
+      ]
+    }
+  ]
 }

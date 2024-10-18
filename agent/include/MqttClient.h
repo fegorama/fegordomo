@@ -21,7 +21,7 @@ class MqttClient {
     private:
         const char* mqtt_topic_receiver = "garden";
         const char* mqtt_topic_publish = "control";
-        const char* mqtt_server = "192.168.1.3"; // "broker.mqtt-dashboard.com";
+        const char* mqtt_server = "192.168.1.100"; // "broker.mqtt-dashboard.com";
         /*
         const char *ca_cert = "-----BEGIN CERTIFICATE-----\n\
 MIIFFjCCAv6gAwIBAgIRAJErCErPDBinU/bWLiWnX1owDQYJKoZIhvcNAQELBQAw\n\

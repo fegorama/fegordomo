@@ -26,12 +26,12 @@ namespace Config
 {
     const char *FILE_NAME = "/config.json";
 
-    String wifiSSID = "";
-    String wifiPassword = "";
+    String wifiSSID = "IOTNET";
+    String wifiPassword = "Qwerty123+";
     String wifiHostname = "ESP32_POOL";
 
-    String staticIP = "192.168.1.201";
-    String staticGW = "192.168.1.1";
+    String staticIP = "172.16.0.101";
+    String staticGW = "172.16.0.1";
     String staticSN = "255.255.255.0";
 
     String mqttUsername = "fegordomo";
