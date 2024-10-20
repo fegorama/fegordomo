@@ -12,7 +12,7 @@
 //#include <ESPAsyncWebServer.h>
 #include <SPIFFS.h>
 #include <ArduinoJson.h>
-#include "config.h"
+#include "Config.h"
 //#include "WebSecServer.h"
 #include "WebServer.h"
 #include "NetConnection.h"

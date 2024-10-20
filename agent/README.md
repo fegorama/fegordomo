@@ -19,3 +19,12 @@ https://medium.com/himinds/mqtt-broker-with-secure-tls-communication-on-ubuntu-1
 ### Install driver 
     https://www.pololu.com/docs/0j7/all
 
+## Errors
+
+### Error: 
+A fatal error occurred: Could not open /dev/ttyUSB0, the port doesn't exist
+
+### Solution:
+    adduser <username> dialout
+    chmod a+rw /dev/ttyUSB0
+
